@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from os import path
-# from auth import auth_bp
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'shhhhhh...'
@@ -16,6 +16,7 @@ db = SQLAlchemy(app)
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+
 login_manager.login_view = 'login'
 
-# app.register_blueprint(auth_bp)
+
