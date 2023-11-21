@@ -1,1 +1,26 @@
-register html
+{% extends "base.html" %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <fieldset>
+        <!-- <h1 class="heading">Create Your TuneIn Account</h1>
+        <h2>Where Music Comes Alive</h2> -->
+        <h1 class="heading">Create Your Account</h1>
+        <h2>Let the Melody Mount!</h2>
+        <form action="/register" method="post">
+            <li><legend for="email">Email</legend>:<input type="email" name="email" id="email" placeholder="your.email@example.com" required></li>
+            <li><legend for="fname">First Name</legend>:<input type="text" name="fname" id="fname" placeholder="Enter the First Name " required></li>
+            <li><legend for="lname">Last Name</legend>:<input type="text" name="lname" id="lname" placeholder="Enter the Last Name" required></li>
+            <li><legend for="date">Birthdate</legend>:<input type="date" name="dob" id="dob" value="None"  placeholder="birthday"></li>
+            <li><legend for="password">Password</legend>:<input type="password" name="password" id="password" placeholder="Enter a Strong Password" required></li>
+            <li><input type="submit" value="Register"></li>
+        </form>
+    </fieldset>
+</div>
+{% endblock %}

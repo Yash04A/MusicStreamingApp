@@ -1,1 +1,22 @@
-login
+{% extends "base.html" %}
+
+
+{% block head %}
+<title>TuneIn-Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <fieldset>
+        <h1 class="heading">Login to TuneIn</h1>
+        <h2></h2>
+        <form action="/login" method="post">
+            <li><legend for="email">Email</legend>:<input type="email" name="email" id="email" placeholder="Enter your registered email" required></li>
+            <li><legend for="password">Password</legend>:<input type="password" name="password" id="password" placeholder="Enter your Password" required></li>
+            <li><input type="submit" value="Log In"></li>
+        </form>
+    </fieldset>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: sans-serif;
+  }
+  
+  body{
+     background-color: #222120;
+  }
+  
+  .wrapper{
+    display: flex;
+    position: relative;
+  }
+  
+  .wrapper .sidebar{
+    width: 13vw;
+    height: 100vh;
+    background: #222120;
+    padding: 30px 0px;
+    position: fixed;
+  }
+  
+  .wrapper .sidebar h2{
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .wrapper .sidebar ul li{
+    padding: 15px;
+    border-top: 1px solid #333333;
+  }    
+  
+  .wrapper .sidebar ul li a{
+    color: #fff;
+    display: block;
+  }
+  
+  .wrapper .sidebar ul li a .fas{
+    color: #fa586a;
+    width: 25px;
+  }
+  
+  .wrapper .sidebar ul li:hover{
+    background-color: #333333;
+  }
+      
+  .wrapper .sidebar ul li:hover a{
+    color: #222120;
+  }
+   
+  .wrapper .sidebar .social_media{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+  }
+  
+  .wrapper .sidebar .social_media a{
+    display: block;
+    width: 40px;
+    background: #222120;
+    height: 40px;
+    line-height: 45px;
+    text-align: center;
+    margin: 0 5px;
+    color: #fa586a;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  .wrapper .main_content{
+    width: 100vw;
+    margin-left: 13vw;
+  }
+  
+  .wrapper .main_content .header{
+    height: 7vh;
+    padding: 10px 20px;
+    position: stickey;
+    background-color: transparent;
+    /* background: #222120; */
+    color: #717171;
+    border-bottom: 1px solid #333333;
+  }
+
+  
+  .wrapper .main_content .info{
+    margin: 20px;
+    color: #717171;
+    line-height: 25px;
+  }
+  
+  .wrapper .main_content .info div{
+    margin-bottom: 20px;
+  }
+  
+  @media (max-height: 500px){
+    .social_media{
+      display: none !important;
+    }
+  }
+
+    .main_content {
+        width: 100%;
+        margin: 0;
+        background-image: linear-gradient(0deg, rgba(34, 33, 32, 0.5), rgba(51, 51, 51, 0.5));
+    }

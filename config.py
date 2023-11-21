@@ -12,7 +12,9 @@ app.config['SONG_IMG_UPLOAD'] = path.join(path.dirname(path.realpath(__file__)),
 app.config['SONG_UPLOAD'] = path.join(path.dirname(path.realpath(__file__)), 'static/song/')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myapp.sqlite3'
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+db.init_app(app)
+app.app_context().push()
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
