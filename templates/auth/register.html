@@ -7,6 +7,7 @@
 
 
 {% block content %}
+
 <div class="container">
     <fieldset>
         <!-- <h1 class="heading">Create Your TuneIn Account</h1>
@@ -18,7 +19,16 @@
             <li><legend for="fname">First Name</legend>:<input type="text" name="fname" id="fname" placeholder="Enter the First Name " required></li>
             <li><legend for="lname">Last Name</legend>:<input type="text" name="lname" id="lname" placeholder="Enter the Last Name" required></li>
             <li><legend for="date">Birthdate</legend>:<input type="date" name="dob" id="dob" value="None"  placeholder="birthday"></li>
-            <li><legend for="password">Password</legend>:<input type="password" name="password" id="password" placeholder="Enter a Strong Password" required></li>
+            <li><legend for="password">Password</legend>:<input type="password" name="password" id="password" placeholder="Password must be 8+ characters" required></li>
+            <li>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <i class="flashed">{{ message }}</i>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </li>
             <li><input type="submit" value="Register"></li>
         </form>
     </fieldset>

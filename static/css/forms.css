@@ -82,3 +82,8 @@ input[type="submit"]{
     cursor: pointer;
     width: 100%;
 }
+
+.flashed {
+    align-items: center;
+    color: #fa586a;
+}
