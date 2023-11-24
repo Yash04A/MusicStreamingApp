@@ -27,7 +27,7 @@ fieldset {
 .main_content {
     width: 100%;
     margin: 0;
-    background-image: linear-gradient(0deg, rgba(34, 33, 32, 0.5), rgba(51, 51, 51, 0.5)), url(disc-bg.png);
+    background-image: linear-gradient(0deg, rgba(34, 33, 32, 0.5), rgba(51, 51, 51, 0.5)), url(../img/others/disc-bg.png);
     background-repeat: no-repeat;
     background-size:cover;
     background-attachment: fixed;
@@ -67,9 +67,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding: 25px;
     text-align: center;
 }
+
 fieldset h2{
     padding-bottom: 10px;
     border-bottom: .1px solid #717171;
+}
+
+form{
+    padding-top: 15px;
 }
 
 

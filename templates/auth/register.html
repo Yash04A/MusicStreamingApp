@@ -1,26 +1,49 @@
 {% extends "base.html" %}
-
-
 {% block head %}
+<title>TuneIn-Register</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
-
-
 {% block content %}
-
 <div class="container">
     <fieldset>
         <!-- <h1 class="heading">Create Your TuneIn Account</h1>
         <h2>Where Music Comes Alive</h2> -->
         <h1 class="heading">Create Your Account</h1>
         <h2>Let the Melody Mount!</h2>
-        <form action="/register" method="post">
-            <li><legend for="email">Email</legend>:<input type="email" name="email" id="email" placeholder="your.email@example.com" required></li>
-            <li><legend for="fname">First Name</legend>:<input type="text" name="fname" id="fname" placeholder="Enter the First Name " required></li>
-            <li><legend for="lname">Last Name</legend>:<input type="text" name="lname" id="lname" placeholder="Enter the Last Name" required></li>
-            <li><legend for="date">Birthdate</legend>:<input type="date" name="dob" id="dob" value="None"  placeholder="birthday"></li>
-            <li><legend for="password">Password</legend>:<input type="password" name="password" id="password" placeholder="Password must be 8+ characters" required></li>
+        <form action="{{ url_for('auth.register') }}" method="post">
+            {{form.hidden_tag()}}
             <li>
+                <legend for="{{ form.email.id }}">Email</legend>:
+                {{ form.email(placeholder="your.email@example.com") }}
+            </li>
+
+            <li>
+                <legend for="{{ form.fname.id }}">First Name</legend>:
+                {{ form.fname(placeholder="Enter the First Name") }}
+            </li>
+
+            <li>
+                <legend for="{{ form.lname.id }}">Last Name</legend>:
+                {{ form.lname(placeholder="Enter the Last Name") }}
+            </li>
+
+            <li>
+                <legend for="{{ form.dob.id }}">Birthdate</legend>:
+                {{ form.dob(placeholder="birthday") }}
+            </li>
+
+            <li>
+                <legend for="{{ form.password.id }}">Password</legend>:
+                {{ form.password(placeholder="Password must be 8+ characters") }}
+            </li>
+
+            <li>
+                {% for field, errors in form.errors.items() %}
+                    {% for error in errors %}
+                        <i class="flashed">{{ error }}</i>
+                    {% endfor %}
+                {% endfor %}
+
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages %}
@@ -29,7 +52,9 @@
                     {% endif %}
                 {% endwith %}
             </li>
-            <li><input type="submit" value="Register"></li>
+            <li>
+                <input type="submit" value="Register">
+            </li>
         </form>
     </fieldset>
 </div>

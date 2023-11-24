@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
+<title>TuneIn-Admin</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
 {% block content %}
@@ -7,10 +8,24 @@
     <fieldset>
     <h1 class="heading">Admin Login</h1>
     <h2></h2>
-    <form action="/admin/login" method="post">
-        <li><legend for="email">Email</legend>:<input type="email" name="email" id="email" placeholder="Enter your registered email" required></li>
-        <li><legend for="password">Password</legend>:<input type="password" name="password" id="password" placeholder="Enter your Password" required></li>
+    <form action="{{ url_for('auth.login') }}" method="post">
+        {{form.hidden_tag()}}
         <li>
+            <legend for="{{ form.email.id }}">Email</legend>:
+            {{ form.email(placeholder="Enter your registered email") }}
+        </li>
+        <li>
+            <legend for="{{ form.password.id }}">Password</legend>:
+            {{ form.password(placeholder="Enter your Password") }}
+        </li>
+
+        <li>
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <i class="flashed">{{ error }}</i>
+                {% endfor %}
+            {% endfor %}
+
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     {% for message in messages %}
@@ -19,7 +34,9 @@
                 {% endif %}
             {% endwith %}
         </li>
-        <li><input type="submit" value="Log In"></li>
+        <li>
+            <input type="submit" value="Register">
+        </li>
     </form>
     </fieldset>
 </div>
