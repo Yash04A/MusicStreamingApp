@@ -28,6 +28,7 @@ class User(db.Model, UserMixin):
 
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    score = db.Column(db.Float, nullable=True)
     avg_rating = db.Column(db.Float, nullable=True)
     song_id = db.Column(db.Integer, db.ForeignKey('songs.song_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -43,7 +44,7 @@ class Songs(db.Model):
     title = db.Column(db.String(100), nullable=False)
     genre = db.Column(db.String(20), nullable=False)
     release_date = db.Column(db.Date, nullable=False)
-    duration = db.Column(db.Interval, nullable=True)
+    duration = db.Column(db.String(10), nullable=True)
     audio = db.Column(db.String(255), nullable=True)
     lyrics = db.Column(db.String(255), nullable=True)
     img = db.Column(db.String(255), nullable=True)

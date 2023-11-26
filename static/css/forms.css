@@ -1,6 +1,6 @@
-body{
+/* body{
     overflow: hidden;
-}
+} */
 
 fieldset {
     width: 40%;
@@ -27,7 +27,7 @@ fieldset {
 .main_content {
     width: 100%;
     margin: 0;
-    background-image: linear-gradient(0deg, rgba(34, 33, 32, 0.5), rgba(51, 51, 51, 0.5)), url(../img/others/disc-bg.png);
+    background-image: linear-gradient(0deg, rgba(34, 33, 32, 0.5), rgba(51, 51, 51, 0.5)), url(../img/disc-bg.png);
     background-repeat: no-repeat;
     background-size:cover;
     background-attachment: fixed;
@@ -89,6 +89,7 @@ input[type="submit"]{
 }
 
 .flashed {
-    align-items: center;
+    display: block;
+    /* align-items: center; */
     color: #fa586a;
 }

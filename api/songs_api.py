@@ -7,6 +7,7 @@ import os
 from models import Songs, SongStats
 from forms import SongForm
 from config import db,app
+from utils import uploadData
 
 
 song_bp = Blueprint('song',__name__)
@@ -16,7 +17,6 @@ class SongAPI(Resource):
     def get(self, song_id):
         try:
             play = Songs.session.filterby(song_id=song_id)
-            
             return play
         except :
             return 500
@@ -28,13 +28,15 @@ class SongAPI(Resource):
             title = form.title.data
             genre = form.genre.data
             release_date = form.release_date.data
-
             audio_file = form.audio.data
             lyrics_file = form.lyrics.data
             img_file = form.img.data
 
             audio = MP3(audio_file)
-            duration = audio.info.length
+            duration_seconds = int(audio.info.length)
+            duration_minutes = duration_seconds // 60
+            duration_seconds %= 60
+            duration = f"{duration_minutes:02d}:{duration_seconds:02d}"
 
             try:
                 new_song = Songs(
@@ -47,7 +49,7 @@ class SongAPI(Resource):
 
                 db.session.add(new_song)
                 db.session.commit()
-            except:
+            except Exception as e:
                 flash("Error occured during initial commit!")
                 return 500
 
@@ -58,15 +60,10 @@ class SongAPI(Resource):
                 lyrics_filename = f"{song_id}.txt"
                 img_filename = f"{song_id}.jpg"
 
-                # File paths
-                audio_path = os.path.join(app.config['SONG_UPLOAD'], audio_filename)
-                lyrics_path = os.path.join(app.config['LYRICS_UPLOAD'], lyrics_filename)
-                img_path = os.path.join(app.config['IMG_UPLOAD'], img_filename)
-
-                # Save file at given location
-                audio_file.save(audio_path)
-                lyrics_file.save(lyrics_path)
-                img_file.save(img_path)
+                # Upload files
+                audio_path = uploadData(audio_file, app.config['SONG_UPLOAD'], audio_filename)
+                lyrics_path = uploadData(lyrics_file, app.config['SONG_LYRICS_UPLOAD'], lyrics_filename)
+                img_path = uploadData(img_file, app.config['SONG_IMG_UPLOAD'], img_filename)
 
                 # Update the Songs instance with file paths
                 new_song.audio = audio_path
@@ -75,48 +72,45 @@ class SongAPI(Resource):
 
                 db.session.commit()
                 flash("Song Uploaded Sucessfully!")
-                return redirect(url_for()), 201
-            except:
+                return redirect(url_for('creator.upload_song'))
+            
+            except Exception as e:
                 flash("Error occured!")
-                return 500
+                # return 500
         else:
-            return {'error':form.errors}, 400
+            return redirect(url_for('creator.upload_song'))
         
     def put(self, song_id):
-        form = SongForm()
+        form = request.get_json()
+        title = form.get('title')
+        genre = form.get('genre')
 
-        if form.validate_on_submit():
-            title = form.title.data
-            genre = form.genre.data
-
-            try:
-                update_song = Songs.query.filter_by(song_id=song_id).first()
-                if current_user.id == update_song.creator_id :
+        try:
+            update_song = Songs.query.filter_by(song_id=song_id).first()
+            if update_song:
+                if update_song.title != title:
                     update_song.title = title
-                    update_song.genre = genre
-                    db.session.commit()
-
-                    flash("Song Uploaded Sucessfully!")
-                    return redirect(url_for()), 201
-                else:
-                    flash("Access denied!")
-            except:
-                flash("Error occured!")
+                if update_song.genre != genre:
+                    new_genre = genre
+                    update_song.genre = new_genre
+                db.session.commit()
+                return "Song Updated Sucessfully", 200
+            else:
+                return "Song ",404
+        except:
                 return 500
-        else:
-            return {'error':form.errors}, 400
+        
         
     def delete(self, song_id):
         song = Songs.query.get(song_id)
         if song:
-            if current_user.id == song.creator_id or current_user.role=='admin':
-                song.delete()
-                flash('Song deleted!')
-            else:
-                flash('Access denied!')
+            db.session.delete(song)
+            db.session.commit()
+            return "Song deleted", 200
+        
         else:
-            flash("No song found!")
-        return redirect('/')
+            return "No song found", 400
+        
     
 
-api.add_resource(SongAPI, '/')
+api.add_resource(SongAPI, '/','/<int:song_id>')

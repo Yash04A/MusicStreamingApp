@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block head %}
+<title>TuneIn-Register</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <fieldset>
+        <!-- <h1 class="heading">Create Your TuneIn Account</h1>
+        <h2>Where Music Comes Alive</h2> -->
+        <h1 class="heading">Upload Song</h1>
+        <h2>Upload</h2>
+        <form action="{{ url_for('song.songapi') }}" method="post" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+            <li>
+                <legend for="{{ form.title.id }}">Title</legend>:
+                {{ form.title(placeholder="Enter title of your song") }}
+            </li>
+
+            <li>
+                <legend for="{{ form.genre.id }}">Genre</legend>:
+                {{ form.genre(placeholder="Enter genre of your song") }}
+            </li>
+
+            <li>
+                <legend for="{{ form.release_date.id }}">Release date</legend>:
+                {{ form.release_date() }}
+            </li>
+            <li>
+                <legend for="{{ form.audio.id }}">Upload Audio</legend>:
+                {{ form.audio() }}
+            </li>
+            <li>
+                <legend for="{{ form.lyrics.id }}">Upload Lyrics</legend>:
+                {{ form.lyrics() }}
+            </li>
+            <li>
+                <legend for="{{ form.img.id }}">Upload songs cover art</legend>:
+                {{ form.img() }}
+            </li>
+
+
+            <li>
+                {% for field, errors in form.errors.items() %}
+                    {% for error in errors %}
+                        <i class="flashed">{{ error }}</i>
+                    {% endfor %}
+                {% endfor %}
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <i class="flashed">{{ message }}</i>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </li>
+            <li>
+                <input type="submit" value="Register">
+            </li>
+        </form>
+    </fieldset>
+</div>
+{% endblock %}
