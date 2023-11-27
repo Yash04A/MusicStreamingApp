@@ -19,16 +19,21 @@
   .wrapper .sidebar{
     width: 13vw;
     height: 100vh;
+    display: grid;
     background: #222120;
-    padding: 30px 0px;
+    padding: 30px 0;
     position: fixed;
-  }
-  
-  .wrapper .sidebar h2{
-    color: #fff;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 30px;
+
+    justify-content: center;
+    grid-template-rows: max-content max-content max-content auto;
+    }
+  .wrapper .sidebar .logo {
+    padding-bottom: 30px;
+    }
+  .wrapper .sidebar .logo img{
+    height: 5vh;
+    width: 11.5vw;
+    margin: 15px 10px;
   }
   
   .wrapper .sidebar ul li{
@@ -37,13 +42,14 @@
   }    
   
   .wrapper .sidebar ul li a{
-    color: #fff;
+    color: #717171;
     display: block;
   }
   
-  .wrapper .sidebar ul li a .fas{
+  .wrapper .sidebar ul li a .ti{
     color: #fa586a;
-    width: 25px;
+    font-size: 20px;
+    padding: 5px;
   }
   
   .wrapper .sidebar ul li:hover{
@@ -54,7 +60,7 @@
     color: #222120;
   }
    
-  .wrapper .sidebar .social_media{
+  .wrapper .sidebar .log_out{
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -62,9 +68,9 @@
     display: flex;
   }
   
-  .wrapper .sidebar .social_media a{
+  .wrapper .sidebar .log_out a{
     display: block;
-    width: 40px;
+    width: 100px;
     background: #222120;
     height: 40px;
     line-height: 45px;
@@ -73,6 +79,10 @@
     color: #fa586a;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+  }
+
+  .wrapper .sidebar .log_out a .ti{
+    padding: 5px;
   }
   
   .wrapper .main_content{
@@ -102,7 +112,7 @@
   }
   
   @media (max-height: 500px){
-    .social_media{
+    .log_out{
       display: none !important;
     }
   }

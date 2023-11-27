@@ -9,26 +9,45 @@
     
 </head>
 <body>
-    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 
 <div class="wrapper">
     <div class="sidebar">
-        <h2>Sidebar</h2>
-        <ul>
-            <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="#"><i class="fas fa-radio"></i>Radio</a></li>
-            <li><a href="#"><i class="fas fa-address-card"></i>Playlists</a></li>
-            <li><a href="#"><i class="fas fa-blog"></i>Albums</a></li>
-<!-- 
-            <i class="fas">Your Library</i>
-            <li><a href="#"><i class="fas fa-address-book"></i>Liked Songs</a></li> -->
-        </ul> 
-        <div class="social_media">
-    
-          <a href="#"><i class="fab fa-twitter"></i></a>
+        <div class="logo">
+            <a href="{{url_for('home')}}">
+                <img src="{{ url_for('static', filename='img/tunein-logo-transparent.png') }}" alt="site-logo" height="100px">
+            </a>
+        </div>
 
+        <ul>
+            <li><a href="{{url_for('home')}}"><i class="ti ti-home"></i>Home</a></li>
+            <li><a href="{{url_for('home')}}"><i class="ti ti-radio"></i>Radio</a></li>
+            <li><a href="{{url_for('home')}}"><i class="ti ti-playlist"></i>Playlists</a></li>
+            <li><a href="{{url_for('home')}}"><i class="ti ti-album"></i>Albums</a></li>
+<!-- 
+            <i class="ti">Your Library</i>
+            <li><a href="#"><i class="ti ti-address-book"></i>Liked Songs</a></li> -->
+        </ul> 
+        <ul><li><a> <strong> Your Library </strong></a></li></ul>
+        
+        <ul>
+            <li><a href="#"><i class="ti ti-home"></i>Home</a></li>
+            <li><a href="#"><i class="ti ti-radio"></i>Radio</a></li>
+            <li><a href="#"><i class="ti ti-address-card"></i>Playlists</a></li>
+            <li><a href="#"><i class="ti ti-blog"></i>Albums</a></li>
+<!-- 
+            <i class="ti">Your Library</i>
+            <li><a href="#"><i class="ti ti-address-book"></i>Liked Songs</a></li> -->
+        </ul> 
+
+        <div class="log_out">
+            {% if current_user.is_authenticated %}
+                <a href="{{url_for('auth.logout')}}"><i class="ti ti-logout-2"></i>Log Out</a>
+            {% endif %}
       </div>
     </div>
+
+    
     <div class="main_content">
         <div class="header">search?</div>  
         <div class="info">
