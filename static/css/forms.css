@@ -49,7 +49,7 @@ legend {
     flex: 1; 
 }
 
-input {
+fieldset form input {
     flex: 2;
     background-color: transparent;
     width:70%;
@@ -73,12 +73,12 @@ fieldset h2{
     border-bottom: .1px solid #717171;
 }
 
-form{
+fieldset form{
     padding-top: 15px;
 }
 
 
-input[type="submit"]{
+fieldset form input[type="submit"]{
     background-color: #fa586a;
     color:white;
     padding:12px 20px;

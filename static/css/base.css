@@ -90,17 +90,6 @@
     margin-left: 13vw;
   }
   
-  .wrapper .main_content .header{
-    height: 7vh;
-    padding: 10px 20px;
-    position: sticky;
-    background-color: transparent;
-    /* background: #222120; */
-    color: #717171;
-    border-bottom: 1px solid #333333;
-  }
-
-  
   .wrapper .main_content .info{
     margin: 20px;
     color: #717171;
@@ -122,3 +111,59 @@
       margin: 0;
       background-image: linear-gradient(0deg, rgba(34, 33, 32, 0.5), rgba(51, 51, 51, 0.5));
   }
+
+  .wrapper .main_content .header{
+    display: flex;
+    height: 7vh;
+    padding: 10px 20px;
+    position: sticky;
+    background-color: transparent;
+    color: #717171;
+    border-bottom: 1px solid #333333;
+  }
+  .header .nav1{
+    position: relative;
+    width: 400px;
+    height: 40px;
+    flex: 70%;
+  }
+
+  .header .nav1 input {
+    background-color: transparent;
+    width: -webkit-fill-available;
+    height: 40px;
+    font-size: 17px;
+    padding: 0px 30px 0px 20px;
+    border: 1px solid #333333;
+    border-radius: 20px;
+    color: #717171;
+}
+
+
+.header .nav1 button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 40px;
+  background-color: #fa686a;
+  border: 1px solid #333333;
+  border-radius: 0px 20px 20px 0px;
+}
+
+.header .nav1 .ti{
+  height: 100%;
+  width: 100% ;
+  font-size: 24px;
+  color: #333333;
+}
+
+
+.header .nav2{
+  /* padding-left: 30%; */
+  flex: 15%;
+}
+
+.header .nav3{
+  flex: 15%;
+}

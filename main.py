@@ -27,6 +27,23 @@ def home():
     return render_template("home.html")
 
 
+@app.route('/radio')
+@login_required
+def radio():
+    pass
+
+
+@app.route('/playlists')
+@login_required
+def playlists():
+    pass
+
+
+@app.route('/albums')
+@login_required
+def albums():
+    pass
+
 
 
 if __name__ == "__main__":
