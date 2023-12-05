@@ -70,7 +70,13 @@ class SongAPI(Resource):
                 new_song.lyrics = lyrics_path
                 new_song.img = img_path
 
+                stats = SongStats(
+                    song_id=song_id,
+                    play_count=0
+                )
+                db.session.add(stats)
                 db.session.commit()
+                
                 flash("Song Uploaded Sucessfully!")
                 return redirect(url_for('creator.upload_song'))
             

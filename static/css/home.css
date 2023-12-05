@@ -1,0 +1,12 @@
+.row-1 {
+    display: grid;
+    /* overflow: scroll; */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px; /* Adjust as needed */
+}
+
+/* song_id
+img location
+title
+artist name
+like feature */

@@ -24,7 +24,6 @@ def register():
                         dob=form.dob.data,
                         role="user", 
                         password = bcrypt.generate_password_hash(form.password.data),
-                        pfp = app.config['PFP_UPLOADS'] +'/default.jpg'
                     )
             db.session.add(user)
             db.session.commit()
@@ -95,11 +94,11 @@ def update_user(user_id):
         if bcrypt.check_password_hash(current_user.password, form.password.data):
             user = User.query.filter_by(id=current_user.id).first()
             if current_user.first_name != form.first_name.data:
-                new_fname = form.fname.data
+                new_fname = form.first_name.data
                 user.first_name = new_fname
                 flash("First name updated sucessfully!")
             if current_user.last_name != form.last_name.data:
-                new_lname = form.lname.data
+                new_lname = form.last_name.data
                 user.last_name = new_lname
                 flash("Last name updated sucessfully!")
             if current_user.dob != form.dob.data:
@@ -112,7 +111,7 @@ def update_user(user_id):
                 flash("Profile picture updated sucessfully!")
             db.session.commit()
             # confirm_login()
-            return redirect(url_for('auth.update_user', user_id=current_user.id))
+            return redirect(url_for('home'))
             
         else:
             flash("Wrong password!")

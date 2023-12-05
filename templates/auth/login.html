@@ -3,6 +3,22 @@
 <title>TuneIn-Login</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
+
+{% block nav %}
+<div class="nav1">
+    
+</div>
+
+<div class="nav2" style="justify-content: space-evenly;">
+    <a href="http://"><button type="button">Register</button></a>
+
+   <a href="http://"><button type="button">Login as Admin</button></a>
+    </a>
+</div>
+{% endblock %}
+
+
+
 {% block content %}
 <div class="container">
     <fieldset>
@@ -28,14 +44,12 @@
 
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
-                        {% for message in messages %}
-                            <i class="flashed">{{ message }}</i>
-                        {% endfor %}
+                            <i class="flashed">{{ messages[-1] }}</i>
                     {% endif %}
                 {% endwith %}
             </li>
             <li>
-                <input type="submit" value="Register">
+                <input type="submit" value="Log In">
             </li>
         </form>
     </fieldset>

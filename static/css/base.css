@@ -88,6 +88,7 @@
   .wrapper .main_content{
     width: 100vw;
     margin-left: 13vw;
+    position: relative;
   }
   
   .wrapper .main_content .info{
@@ -114,12 +115,15 @@
 
   .wrapper .main_content .header{
     display: flex;
-    height: 7vh;
+    height: 70px;
     padding: 10px 20px;
     position: sticky;
+    top: 0;
     background-color: transparent;
     color: #717171;
     border-bottom: 1px solid #333333;
+    align-items: center;
+    z-index: 1;
   }
   .header .nav1{
     position: relative;
@@ -130,7 +134,7 @@
 
   .header .nav1 input {
     background-color: transparent;
-    width: -webkit-fill-available;
+    width: 500px;
     height: 40px;
     font-size: 17px;
     padding: 0px 30px 0px 20px;
@@ -143,10 +147,10 @@
 .header .nav1 button {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 450px;
   width: 60px;
   height: 40px;
-  background-color: #fa686a;
+  background-color: #fa586a;
   border: 1px solid #333333;
   border-radius: 0px 20px 20px 0px;
 }
@@ -158,12 +162,78 @@
   color: #333333;
 }
 
-
 .header .nav2{
-  /* padding-left: 30%; */
   flex: 15%;
+  display: inherit;
+  justify-content: right;
+  align-items: center;
+}
+
+
+.header .nav2 button{
+  /* padding-left: 30%; */
+  /* flex: 15%; */
+  /* position: absolute; */
+  /* top: 0; */
+  /* right: 0; */
+  width: 120px;
+  height: 28px;
+  background-color: transparent;
+  border: 1px solid #fa586a;
+  border-radius: 20px;
+  color: #fa586a;
+
 }
 
 .header .nav3{
   flex: 15%;
+  /* width: 120px; */
+  height: 28px;
+  display: inherit;
+  position: relative;
+  justify-content: center;
+  /* align-items: center; */
+}
+.header .nav3 a{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: inherit;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.header .nav3 img{
+  border-radius: 40px;
+  border:1px solid #fa586a;
+  /* position: absolute; */
+  /* right: 140px; */
+  margin-left: 60px;
+  z-index: 1;
+}
+.header .nav3 .ti{
+  font-size: x-large;
+  color: #fa586a;
+  position: absolute;
+  top: 10px;
+  margin-left: 80px;
+  z-index: 2;
+
+}
+
+.header .nav3 button{
+  position: absolute;
+  left: 0px;
+  padding: 0px 20px;
+  margin-left: 81px;
+  min-width: 100px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  height: 28px;
+  background-color: transparent;
+  border: 1px solid #fa586a;
+  border-radius: 20px;
+  color: #fa586a;
 }

@@ -9,7 +9,9 @@ def uploadData(file, loc, file_name):
         os.remove(new_file_path)
 
     file.save(new_file_path)
+    relative_path = os.path.relpath(new_file_path, start='static').replace(os.path.sep,'/')
 
-    return new_file_path
+
+    return relative_path
 
 

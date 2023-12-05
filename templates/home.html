@@ -1,1 +1,22 @@
 {% extends "base.html" %}
+{% block head %}
+<title>TuneIn-Home</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row-1">
+        {% for song in r_songs %}
+        <div class="song-box">
+            <img src="{{ url_for('static', filename=song.img) }}" alt="" height="156px" width="156px">
+            <h3>{{ song.title }}</h3>
+            <h5>artist name</h5><button>heart</button>
+        </div>
+        {% endfor%}
+    </div>
+</div>
+
+{% endblock %}

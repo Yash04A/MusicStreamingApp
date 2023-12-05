@@ -51,9 +51,7 @@
 
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
-                        {% for message in messages %}
-                            <i class="flashed">{{ message }}</i>
-                        {% endfor %}
+                            <i class="flashed">{{ messages[-1] }}</i>
                     {% endif %}
                 {% endwith %}
             </li>
