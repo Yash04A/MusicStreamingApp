@@ -1,11 +1,11 @@
-from flask import Flask, render_template, url_for, redirect, request, abort
+from flask import Flask, render_template, url_for, redirect, request, abort, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy import func
-from sqlalchemy.orm import session
+import requests as rq
 
 from config import app,db
 from forms import SongForm
-from models import Songs, User, SongStats
+from models import Songs, User, SongStats, Like, Albums, Playlists
 
 from auth import auth_bp
 from creator import creator_bp
@@ -14,10 +14,18 @@ from api.playlist_api import playlist_bp
 from api.album_api import album_bp
 
 
+@app.context_processor
+def load_base():
+    print(current_user.is_authenticated)
+    if current_user.is_authenticated:
+        return dict(playlists = db.session.query(Playlists.playlist_id, Playlists.title, Playlists.img).filter( Playlists.user_id==current_user.id).all())
+    return dict()
+
+
 app.register_blueprint(auth_bp)
-app.register_blueprint(song_bp, url_prefix='/songs')
-app.register_blueprint(playlist_bp, url_prefix='/playlists')
-app.register_blueprint(album_bp, url_prefix='/albums')
+app.register_blueprint(song_bp, url_prefix='/song')
+app.register_blueprint(playlist_bp, url_prefix='/playlist')
+app.register_blueprint(album_bp)
 app.register_blueprint(creator_bp)
 
 
@@ -25,29 +33,73 @@ app.register_blueprint(creator_bp)
 @app.route('/home')
 @login_required
 def home():
-    r_songs = db.session.query(Songs.song_id, Songs.title, Songs.img, User.username).join(User).filter(Songs.is_flagged==0).order_by(func.random()).limit(6).all()
-    new_songs = db.session.query(Songs.song_id, Songs.title, Songs.img, User.username).join(User).filter(Songs.is_flagged==0).order_by(Songs.song_id.desc()).limit(6).all()
-    trending = db.session.query(Songs.song_id, Songs.title, Songs.img, User.username).join(User, User.id==Songs.creator_id).join(SongStats, SongStats.song_id==Songs.song_id).filter(Songs.is_flagged==0).order_by(SongStats.play_count.desc()).limit(6).all()
-    print(trending)
+    r_songs = db.session.query(Songs.song_id, Songs.title, Songs.img, User.username).join(User).filter(Songs.is_flagged.is_(False)).order_by(func.random()).limit(6).all()
+    new_songs = db.session.query(Songs.song_id, Songs.title, Songs.img, User.username).join(User).filter(Songs.is_flagged.is_(False)).order_by(Songs.release_date.desc()).limit(6).all()
+    trending = db.session.query(Songs.song_id, Songs.title, Songs.img, User.username).join(User, User.id==Songs.creator_id).join(SongStats, SongStats.song_id==Songs.song_id).filter(Songs.is_flagged.is_(False)).order_by(SongStats.play_count.desc()).limit(6).all()
+    # print(new_songs,trending)
     return render_template("home.html", r_songs=r_songs, new_songs=new_songs, trending=trending)
+
+
+@app.route('/song/<string:title>-<int:song_id>')
+@login_required
+def played(_, song_id):
+    response = rq.get(f"{url_for('song.songapi',song_id=song_id,_external=True)}")
+    if response.status_code != 200:
+        render_template('error.html')
+    
+    json_play = response.json()
+    return render_template('play_song.html', json_play=json_play)
 
 
 @app.route('/radio')
 @login_required
 def radio():
-    pass
-
+    play = db.session.query(Songs.song_id,Songs.title).filter(Songs.is_flagged.is_(False)).order_by(func.random()).first()
+    return redirect(url_for('played', title=play.title, song_id=play.song_id))
+    
 
 @app.route('/playlists')
 @login_required
 def playlists():
-    pass
+    playlists_list = db.session.query(Playlists.playlist_id, Playlists.title, Playlists.img, Playlists.user_id.username).order_by(func.random()).limit(18).all()
+    return render_template('playlists.html', playlists=playlists_list)
 
 
 @app.route('/albums')
 @login_required
 def albums():
+    albums_list = db.session.query(Albums.album_id, Albums.title, Albums.img, Albums.creator_id.username).order_by(func.random()).limit(18).all()
+    return render_template('albums.html', albums=albums_list)
+
+
+@app.route('/liked_songs')
+@login_required
+def user_liked_songs():
+    liked_song = db.session.query(Songs).join(Like).filter(Like.user_id == current_user.id, Songs.is_flagged.is_(False)).all()
+    return render_template('liked_songs.html', liked_song=liked_song)
+
+
+@app.route('/liked/<int:song_id>')
+@login_required
+def liked_song(song_id):
+    check_like = Like.query.filter_by(song_id=song_id, user_id=current_user.id).first()
+    print(check_like)
+    if check_like is None:
+        liked = Like(song_id=song_id, user_id=current_user.id)
+        db.session.add(liked)
+        db.session.commit()
+        action = 'like'
+    else:
+        db.session.delete(check_like)
+        db.session.commit()
+        action = 'unlike'
+
+    return jsonify({'action':action, 'check_like':bool(check_like)})
+
+@app.route('/search')
+def search():
     pass
+
 
 
 

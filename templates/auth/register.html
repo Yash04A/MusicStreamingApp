@@ -3,6 +3,20 @@
 <title>TuneIn-Register</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
+
+{% block nav %}
+<div class="nav1">
+    
+</div>
+
+<div class="nav2" style="justify-content: space-evenly;">
+    <a href="{{ url_for('auth.login') }}"><button type="button">Login</button></a>
+
+   <a href="{{url_for('auth.admin_login')}}"><button type="button">Login as Admin</button></a>
+    </a>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <fieldset>

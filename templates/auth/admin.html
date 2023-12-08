@@ -1,14 +1,28 @@
 {% extends "base.html" %}
 {% block head %}
-<title>TuneIn-Admin</title>
+<title>TuneIn-Admin Login</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
+
+{% block nav %}
+<div class="nav1">
+    
+</div>
+
+<div class="nav2" style="justify-content: space-evenly;">
+    <a href="{{ url_for('auth.register') }}"><button type="button">Register</button></a>
+
+   <a href="{{ url_for('auth.login') }}"><button type="button">Login</button></a>
+    </a>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <fieldset>
     <h1 class="heading">Admin Login</h1>
     <h2></h2>
-    <form action="{{ url_for('auth.login') }}" method="post">
+    <form action="{{ url_for('auth.admin_login') }}" method="post">
         {{form.hidden_tag()}}
         <li>
             <legend for="{{ form.email.id }}">Email</legend>:

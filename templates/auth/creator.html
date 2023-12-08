@@ -10,9 +10,9 @@
 </div>
 
 <div class="nav2" style="justify-content: space-evenly;">
-    <a href="{{ url_for('auth.register') }}"><button type="button">Register</button></a>
+    <a href="http://"><button type="button">Register</button></a>
 
-   <a href="{{url_for('auth.admin_login')}}"><button type="button">Login as Admin</button></a>
+   <a href="http://"><button type="button">Login as Admin</button></a>
     </a>
 </div>
 {% endblock %}
@@ -22,13 +22,13 @@
 {% block content %}
 <div class="container">
     <fieldset>
-        <h1 class="heading">LogIn to TuneIn</h1>
+        <h1 class="heading">Became a Creator</h1>
         <h2></h2>
-        <form action="{{ url_for('auth.login') }}" method="post">
+        <form action="{{ url_for('auth.creator') }}" method="post">
             {{form.hidden_tag()}}
             <li>
-                <legend for="{{ form.email.id }}">Email</legend>:
-                {{ form.email(placeholder="Enter your registered email") }}
+                <legend for="{{ form.username.id }}">Display Name</legend>:
+                {{ form.username(placeholder="Enter your Display Name") }}
             </li>
             <li>
                 <legend for="{{ form.password.id }}">Password</legend>:
@@ -49,7 +49,7 @@
                 {% endwith %}
             </li>
             <li>
-                <input type="submit" value="Log In">
+                <input type="submit" value="Become a Creator">
             </li>
         </form>
     </fieldset>

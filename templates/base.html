@@ -4,52 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='img/music_disc.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     {% block head %}
     {% endblock %}
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 </head>
 
 <body>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-
+    
     <div class="wrapper">
         <div class="sidebar">
             <div class="logo">
                 <a href="{{url_for('home')}}">
-                    <img src="{{ url_for('static', filename='img/tunein-logo-transparent.png') }}" alt="site-logo"
-                        height="100px">
+                    <img src="{{ url_for('static', filename='img/tunein-logo-transparent.png') }}" alt="site-logo" height="100px">
                 </a>
             </div>
 
             <ul>
-                <li><a href="{{url_for('home')}}"><i class="ti ti-home"></i>Home</a></li>
-                <li><a href="{{url_for('radio')}}"><i class="ti ti-radio"></i>Radio</a></li>
-                <li><a href="{{url_for('playlists')}}"><i class="ti ti-playlist"></i>Playlists</a></li>
-                <li><a href="{{url_for('albums')}}"><i class="ti ti-album"></i>Albums</a></li>
-                <!-- 
-            <i class="ti">Your Library</i>
-            <li><a href="#"><i class="ti ti-address-book"></i>Liked Songs</a></li> -->
+                <li><a href="{{url_for('home')}}"><i class="ti ti-home"></i><p>Home</p></a></li>
+                <li><a href="{{url_for('radio')}}"><i class="ti ti-radio"></i><p>Radio</p></a></li>
+                <li><a href="{{url_for('playlists')}}"><i class="ti ti-playlist"></i><p>Playlists</p></a></li>
+                <li><a href="{{url_for('albums')}}"><i class="ti ti-album"></i><p>Albums</p></a></li>
             </ul>
+            {% if current_user.is_authenticated %}
             <ul>
-                <li><a> <strong> Your Library </strong></a></li>
+                <li><strong style="display: flex; justify-content: space-between;"> <a><p>Your Library</p></a>
+                    <a  href="{{url_for('playlist.create_playlist')}}" class="ti ti-plus" style="font-weight: bolder;"></a></strong></li>
             </ul>
+            
+            <ul class="playlist">
+                <li><a href="{{url_for('user_liked_songs')}}"><i class="ti ti-heart"></i><p>Liked Songs</p></a></li>
 
-            <ul>
-                <li><a href="#"><i class="ti ti-home"></i>Home</a></li>
-                <li><a href="#"><i class="ti ti-radio"></i>Radio</a></li>
-                <li><a href="#"><i class="ti ti-address-card"></i>Playlists</a></li>
-                <li><a href="#"><i class="ti ti-blog"></i>Albums</a></li>
-                <!-- 
-            <i class="ti">Your Library</i>
-            <li><a href="#"><i class="ti ti-address-book"></i>Liked Songs</a></li> -->
+                {% for playlist in playlists %}
+                <li><a href="url_for('playlist_details', title=playlist.title, id=playlist.playlist_id)"><img src="{{ url_for('static', filename=playlist.img) }}"></img><p>{{ playlist.title }}</p></a></li>
+                {% endfor %}
             </ul>
+            {% endif %}
+
 
             <div class="log_out">
                 {% if current_user.is_authenticated %}
                 <a href="{{url_for('auth.logout')}}"><i class="ti ti-logout-2"></i>Log Out</a>
                 {% endif %}
             </div>
+
         </div>
 
 
@@ -57,13 +57,13 @@
             <div class="header">
                 {% if current_user.is_authenticated%}
                 <div class="nav1">
-                    <form action="/test" id="searched" method="get">
+                    <form action="{{ url_for('search') }}" id="searched" method="get">
                         <input type="search" name="search" id="search" placeholder="Enter your query">
                         <button type="submit" form="searched"><i class="ti ti-search"></i></button>
                     </form>
                 </div>
 
-                <div class="nav2"><a href="http://"><button type="button">Join as Creator</button></a></div>
+                <div class="nav2"><a href="{{url_for('auth.creator')}}"><button type="button">Join as Creator</button></a></div>
 
                 <div class="nav3">
                     <a href="{{url_for('auth.update_user', user_id=current_user.id)}}"">
@@ -88,6 +88,26 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        function likeButtonClick(song_id) {
+        
+            fetch('/liked/'+song_id, {method:'GET'})
+            .then(response => response.json())
+            .then(data => {
+                var likeButton = document.querySelector('.likeButton[data-song-id="'+song_id+'"]');
+                likeButton.classList.toggle('liked', data.check_like);
+
+                if(data.action === 'like'){
+                    console.log('Song liked -',song_id);
+                } else {
+                    console.log('Song unliked -', song_id);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </body>
 
 </html>

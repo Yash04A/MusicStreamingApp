@@ -16,13 +16,11 @@ def check_user_role():
 
 
 @creator_bp.route("/upload/song")
-@login_required
 def upload_song():
 
     return render_template("songs/upload_song.html", form=SongForm())
 
 @creator_bp.route("/update/song/<int:song_id>", methods=['GET', 'POST'])
-@login_required
 def update_song(song_id):
     song = Songs.query.get(song_id)
     form = SongForm(obj=song)
@@ -48,7 +46,6 @@ def update_song(song_id):
 
 
 @creator_bp.route("/delete/song/<int:song_id>")
-@login_required
 def delete_song(song_id):
     song = Songs.query.get(song_id)
 
@@ -64,3 +61,7 @@ def delete_song(song_id):
         abort(403)
 
     return redirect(url_for('home'))
+
+@creator_bp.route("/creator_dashboard/<string:username>")
+def creator_dashboard(_):
+    song_data = db.session.query(Songs.title, Songs.likes, )

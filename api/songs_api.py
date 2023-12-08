@@ -1,10 +1,10 @@
-from flask import Blueprint, request, flash, redirect, url_for
+from flask import Blueprint, request, flash, redirect, url_for, jsonify
 from flask_restful import Api, Resource, reqparse
 from flask_login import current_user
 from mutagen.mp3 import MP3
 import os
 
-from models import Songs, SongStats
+from models import Songs, SongStats, User
 from forms import SongForm
 from config import db,app
 from utils import uploadData
@@ -16,8 +16,23 @@ api = Api(song_bp)
 class SongAPI(Resource):
     def get(self, song_id):
         try:
-            play = Songs.session.filterby(song_id=song_id)
-            return play
+            song, username = db.session.query(Songs, User.username).join(User).filter(Songs.song_id==song_id).first()
+            
+            if song :
+                json_play = {
+                    'song_id': song.song_id,
+                    'title' : song.title,
+                    'genre' : song.genre,
+                    'release_date' : song.release_date.isoformat(),
+                    'audio' : song.audio,
+                    'lyrics' : song.lyrics,
+                    'img' : song.img,
+                    'artist': username
+                }
+                return json_play, 200
+            else:
+                return "Song not found", 404
+            
         except :
             return 500
 
@@ -118,5 +133,4 @@ class SongAPI(Resource):
             return "No song found", 400
         
     
-
 api.add_resource(SongAPI, '/','/<int:song_id>')

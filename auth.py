@@ -6,7 +6,7 @@ auth_bp = Blueprint('auth', __name__)
 
 from models import User
 from config import bcrypt, db, app
-from forms import RegistrationForm, LoginForm, UpdateProfileForm
+from forms import RegistrationForm, LoginForm, UpdateProfileForm, CreatorForm
 from utils import uploadData
 
 @auth_bp.route("/register", methods=["GET","POST"])
@@ -76,7 +76,7 @@ def admin_login():
                     flash("Wrong password!")
                     return redirect(url_for('auth.admin_login'))
             else:
-                flash("access denied!")
+                flash("Access denied!")
                 return redirect(url_for('auth.admin_login'))
         else:
             flash("Sorry, we could not find your account.")
@@ -93,24 +93,28 @@ def update_user(user_id):
     if form.validate_on_submit():
         if bcrypt.check_password_hash(current_user.password, form.password.data):
             user = User.query.filter_by(id=current_user.id).first()
+            update = []
             if current_user.first_name != form.first_name.data:
                 new_fname = form.first_name.data
                 user.first_name = new_fname
-                flash("First name updated sucessfully!")
+                update.append("First name")
             if current_user.last_name != form.last_name.data:
                 new_lname = form.last_name.data
                 user.last_name = new_lname
-                flash("Last name updated sucessfully!")
+                update.append("Last name")
             if current_user.dob != form.dob.data:
                 new_dob = form.dob.data
                 user.dob = new_dob
-                flash("Birth date updated sucessfully!")
+                update.append("Birthdate")
+            if current_user.username != form.username.data:
+                new_username = form.username.data
+                user.username = new_username
+                update.append("Username")
             if form.img.data:
                 new_path = uploadData(form.img.data, app.config['PFP_UPLOADS'], f'{current_user.id}.jpg')
                 user.pfp = new_path
-                flash("Profile picture updated sucessfully!")
+                update.append("Profile picture")
             db.session.commit()
-            # confirm_login()
             return redirect(url_for('home'))
             
         else:
@@ -128,3 +132,21 @@ def logout():
     logout_user()
     flash("You have successfully logged out!")
     return redirect(url_for('auth.login'))
+
+
+
+@auth_bp.route('/creator', methods=["GET","POST"])
+@login_required
+def creator():
+    form = CreatorForm()
+    if form.validate_on_submit():
+        if bcrypt.check_password_hash(current_user.password, form.password.data):
+            user = User.query.filter_by(id=current_user.id).first()
+            username = form.username.data
+            user.username = username
+            user.role = "creator"
+            db.session.commit()
+        
+        return redirect(url_for('home'))
+
+    return render_template('auth/creator.html', form=form)

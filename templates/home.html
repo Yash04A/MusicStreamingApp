@@ -13,9 +13,30 @@
         <div class="song-box">
             <img src="{{ url_for('static', filename=song.img) }}" alt="" height="156px" width="156px">
             <h3>{{ song.title }}</h3>
-            <h5>artist name</h5><button>heart</button>
+            <h5>artist name {{song.song_id in current_user.likes|map(attribute='song_id')}}</h5>
+            <button class="likeButton {% if song.song_id in current_user.likes|map(attribute='song_id') %} liked {% endif %}" data-song-id="{{ song.song_id }}" onclick="likeButtonClick({{song.song_id}})">Like/Unlike</button>
         </div>
-        {% endfor%}
+        {% endfor %}
+    </div>
+    <div class="row-1">
+        {% for song in new_songs %}
+        <div class="song-box">
+            <img src="{{ url_for('static', filename=song.img) }}" alt="" height="156px" width="156px">
+            <h3>{{ song.title }}</h3>
+            <h5>artist name {{song.song_id in current_user.likes|map(attribute='song_id')}}</h5>
+            <button class="likeButton {% if song.song_id in current_user.likes|map(attribute='song_id') %} liked {% endif %}" data-song-id="{{ song.song_id }}" onclick="likeButtonClick({{song.song_id}})">Like/Unlike</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row-1">
+        {% for song in trending %}
+        <div class="song-box">
+            <img src="{{ url_for('static', filename=song.img) }}" alt="" height="156px" width="156px">
+            <h3>{{ song.title }}</h3>
+            <h5>artist name {{song.song_id in current_user.likes|map(attribute='song_id')}}</h5>
+            <button class="likeButton {% if song.song_id in current_user.likes|map(attribute='song_id') %} liked {% endif %}" data-song-id="{{ song.song_id }}" onclick="likeButtonClick({{song.song_id}})">Like/Unlike</button>
+        </div>
+        {% endfor %}
     </div>
 </div>
 

@@ -28,6 +28,11 @@
             </li>
 
             <li>
+                <legend for="{{ form.username.id }}">Username</legend>:
+                {{ form.username() }}
+            </li>
+
+            <li>
                 <legend for="{{ form.dob.id }}">Birthdate</legend>:
                 {{ form.dob(default=current_user.dob) }}
             </li>
