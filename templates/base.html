@@ -13,32 +13,49 @@
 </head>
 
 <body>
-    
+
     <div class="wrapper">
         <div class="sidebar">
             <div class="logo">
                 <a href="{{url_for('home')}}">
-                    <img src="{{ url_for('static', filename='img/tunein-logo-transparent.png') }}" alt="site-logo" height="100px">
+                    <img src="{{ url_for('static', filename='img/tunein-logo-transparent.png') }}" alt="site-logo"
+                        height="100px">
                 </a>
             </div>
 
             <ul>
-                <li><a href="{{url_for('home')}}"><i class="ti ti-home"></i><p>Home</p></a></li>
-                <li><a href="{{url_for('radio')}}"><i class="ti ti-radio"></i><p>Radio</p></a></li>
-                <li><a href="{{url_for('playlists')}}"><i class="ti ti-playlist"></i><p>Playlists</p></a></li>
-                <li><a href="{{url_for('albums')}}"><i class="ti ti-album"></i><p>Albums</p></a></li>
+                <li><a href="{{url_for('home')}}"><i class="ti ti-home"></i>
+                        <p>Home</p>
+                    </a></li>
+                <li><a href="{{url_for('radio')}}"><i class="ti ti-radio"></i>
+                        <p>Radio</p>
+                    </a></li>
+                <li><a href="{{url_for('playlists')}}"><i class="ti ti-playlist"></i>
+                        <p>Playlists</p>
+                    </a></li>
+                <li><a href="{{url_for('albums')}}"><i class="ti ti-album"></i>
+                        <p>Albums</p>
+                    </a></li>
             </ul>
             {% if current_user.is_authenticated %}
             <ul>
-                <li><strong style="display: flex; justify-content: space-between;"> <a><p>Your Library</p></a>
-                    <a  href="{{url_for('playlist.create_playlist')}}" class="ti ti-plus" style="font-weight: bolder;"></a></strong></li>
+                <li><strong style="display: flex; justify-content: space-between;"> <a>
+                            <p>Your Library</p>
+                        </a>
+                        <a href="{{url_for('playlist.create_playlist')}}" class="ti ti-plus"
+                            style="font-weight: bolder;"></a></strong></li>
             </ul>
-            
+
             <ul class="playlist">
-                <li><a href="{{url_for('user_liked_songs')}}"><i class="ti ti-heart"></i><p>Liked Songs</p></a></li>
+                <li><a href="{{url_for('user_liked_songs')}}"><i class="ti ti-heart"></i>
+                        <p>Liked Songs</p>
+                    </a></li>
 
                 {% for playlist in user_playlists %}
-                <li><a href="{{url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}"><img src="{{ url_for('static', filename=playlist.img) }}" height="40px"></img><p style="padding-left: 5px;">{{ playlist.title }}</p></a></li>
+                <li><a href="{{url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}"><img
+                            src="{{ url_for('static', filename=playlist.img) }}" height="40px"></img>
+                        <p style="padding-left: 5px;">{{ playlist.title }}</p>
+                    </a></li>
                 {% endfor %}
             </ul>
             {% endif %}
@@ -63,7 +80,32 @@
                     </form>
                 </div>
 
-                <div class="nav2"><a href="{{url_for('auth.creator')}}"><button type="button">Join as Creator</button></a></div>
+                <div class="nav2">
+                    {% if current_user.role=="user" %}
+                    <a href="{{url_for('auth.creator')}}">
+                        <button type="button">
+                            Join as Creator
+                        </button>
+                    </a>
+                    {% else %}
+                        {% if current_user.role=="creator" %}
+                            <a href="{{url_for('creator.creator_dashboard', username=current_user.username)}}">
+                                <button type="button">
+                                    Dashboard
+                                </button>
+                            </a>
+                        {% else %}
+                            {% if current_user.role=="admin" %}
+                            <a href="{{url_for('admin.admin_dashboard')}}">
+                                <button type="button">
+                                    Dashboard
+                                </button>
+                            </a>
+                            {%endif%}
+                        {%endif%}
+                    {%endif%}
+
+                </div>
 
                 <div class="nav3">
                     <a href="{{url_for('auth.update_user', user_id=current_user.id)}}"">
@@ -92,21 +134,21 @@
 
     <script>
         function likeButtonClick(song_id) {
-        
-            fetch('/liked/'+song_id, {method:'GET'})
-            .then(response => response.json())
-            .then(data => {
-                var likeButton = document.querySelector('.likeButton[data-song-id="'+song_id+'"]');
-                likeButton.classList.toggle('ti-heart-filled', data.action === 'like');
-                likeButton.classList.toggle('ti-heart', data.action==='unlike');
-                
-                if(data.action === 'like'){
-                    console.log('Song liked -',song_id);
-                } else {
-                    console.log('Song unliked -', song_id);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+
+            fetch('/liked/' + song_id, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    var likeButton = document.querySelector('.likeButton[data-song-id="' + song_id + '"]');
+                    likeButton.classList.toggle('ti-heart-filled', data.action === 'like');
+                    likeButton.classList.toggle('ti-heart', data.action === 'unlike');
+
+                    if (data.action === 'like') {
+                        console.log('Song liked -', song_id);
+                    } else {
+                        console.log('Song unliked -', song_id);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
     </script>
 </body>

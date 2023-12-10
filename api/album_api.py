@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, flash,redirect, abort, current_app
+from flask import Blueprint, render_template, request, url_for, flash,redirect, abort
 from flask_login import login_required, current_user
 
 from config import app, db
@@ -15,6 +15,7 @@ def check_user_role():
     check_rp = ['album.album_detail']
     if request.endpoint not in check_rp:
         if current_user.role not in ("admin", "creator"):
+            app.logger.info(f"Access denied: {current_user.id} - {current_user.username} - {current_user.role}")
             abort(403)
 
 @album_bp.route('/album/<int:album_id>')
@@ -36,12 +37,13 @@ def create_album(album_id=None):
 
         if album_id:
             album = Albums.query.get(album_id)
+            album.title = title
             
         else:
             album = Albums(title=title, release_date=released_date, creator_id=current_user.id)
             db.session.add(album)
             db.session.commit()
-        
+
         if img_file:
             img_filename = f"{album.album_id}.jpg"
             img_path = uploadData(img_file, app.config['ALBUM_IMG_UPLOAD'], img_filename)
@@ -51,6 +53,7 @@ def create_album(album_id=None):
 
         db.session.add(album)
         db.session.commit()
+
 
     if album_id:
         album = Albums.query.get(album_id)
@@ -69,8 +72,10 @@ def delete_album(album_id):
             app.logger.info(f"Deleted Album - {album.title, album.album_id} ")
             db.session.delete(album)
             db.session.commit()
+
         else:
-            flash('Song not found!')
+            app.logger.info(f"Album not found: {album_id}")
+            flash('Album not found!')
     else:
         abort(403)
     return redirect(url_for('home'))

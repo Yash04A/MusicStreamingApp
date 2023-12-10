@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Tune-In</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lists.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main-body">
+    <h1>Albums</h1>
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Album Name</th>
+                    <th>Created by</th>
+                    <th>Edit Album</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for album, username in albums %}
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename=album.img) }}" alt="" height="40px">
+                    </td>
+                    <td>
+                        <a class="a" href="{{ url_for('album.album_detail', album_id=album.album_id)}}">
+                        {{ album.title }}
+                        </a>
+                    </td>
+                    
+                    <td>
+                        {{username}}
+                    </td>
+                    <td>
+                        <a href="{{url_for('album.create_album',album_id=album.album_id)}}"><button class="table-btn" value="Edit Album">Edit Album</button></a>
+                    </td>
+                    <td>
+                        <a href="{{url_for('album.delete_album',album_id=album.album_id)}}"><button class="table-btn"><i class="ti ti-trash"></i></button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Tune-In</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lists.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main-body">
+    <h1>Playlists</h1>
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Playlist Name</th>
+                    <th>Created by</th>
+                    <th>Edit playlist</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for playlist, username in playlists %}
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename=playlist.img) }}" alt="" height="40px">
+                    </td>
+                    <td>
+                        <a class="a" href="{{ url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}">
+                        {{ playlist.title }}
+                        </a>
+                    </td>
+                    <td>
+                        {{username}}
+                    </td>
+                    <td>
+                        <a href="{{url_for('playlist.create_playlist',playlist_id=playlist.playlist_id)}}"><button class="table-btn" value="Edit playlist">Edit playlist</button></a>
+                    </td>
+                    <td>
+                        <a href="{{url_for('playlist.delete_playlist',playlist_id=playlist.playlist_id)}}"><button class="table-btn"><i class="ti ti-trash"></i></button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

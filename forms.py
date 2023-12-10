@@ -3,7 +3,7 @@ from flask_wtf.file import FileAllowed
 from wtforms import StringField, PasswordField,DateTimeField, DateField, FileField
 from wtforms.validators import DataRequired, Email, Length, ValidationError, Optional
 from models import User
-from datetime import date, datetime
+from datetime import datetime
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[Email(), DataRequired()])

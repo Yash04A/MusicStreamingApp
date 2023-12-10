@@ -35,7 +35,9 @@
     <div class="image">
         {% if dashboard %}
         <img src="{{url_for('static', filename=dashboard)}}" alt="" height="480px" width="720px">
-        {% end if%}
+        {% else %}
+        <img src="" alt="" height="480px" width="720px" style="visibility: hidden;">
+        {% endif%}
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, flash,redirect, abort
+from flask import Blueprint, render_template, url_for, flash,redirect, abort
 from flask_login import login_required, current_user
 import requests as rq
 
@@ -66,12 +66,12 @@ def delete_song(song_id):
 @creator_bp.route("/creator_dashboard/<string:username>")
 def creator_dashboard(username):
     top_10 = db.session.query(Songs.title, SongStats.play_count).join(SongStats, SongStats.song_id==Songs.song_id).filter(Songs.is_flagged.is_(False), Songs.creator_id==current_user.id).order_by(SongStats.play_count.desc()).limit(10).all()
+    
     if top_10:
         plot_graph(top_10, f'{current_user.id}.png')
         loc = f'dashboard/{current_user.id}.png'
     else:
         loc=None
-    
     t_songs = Songs.query.filter_by(creator_id=current_user.id).count()
     t_albums = Albums.query.filter_by(creator_id=current_user.id).count()
 
@@ -81,10 +81,10 @@ def creator_dashboard(username):
 
 @creator_bp.route("/creator/albums")
 def show_albums():
-    albums = db.session.query(Albums).filter(Albums.creator_id==current_user.id).all()
+    albums = db.session.query(Albums, User.username).join(User).filter(Albums.creator_id==current_user.id).all()
     return render_template('lists/album.html', albums=albums)
 
 @creator_bp.route("/creator/songs")
 def show_songs():
-    songs = db.session.query(Songs).filter(Songs.creator_id==current_user.id).all()
+    songs = db.session.query(Songs, User.username).join(User).filter(Songs.creator_id==current_user.id).all()
     return render_template('lists/song.html', songs=songs)

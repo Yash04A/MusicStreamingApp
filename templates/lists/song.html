@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Tune-In</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lists.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main-body">
+    <h1>Songs</h1>
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Song Name</th>
+                    <th>Artist</th>
+                    <th>Genre</th>
+                    <th>Edit Song</th>
+                    {% if current_user.role=="admin" %}
+                    <th>Flag</th>
+                    {% endif %}
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for song, username in songs %}
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename=song.img) }}" alt="" height="40px">
+                    </td>
+                    <td>
+                        <a class="a" href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+                        {{ song.title }}
+                        </a>
+                    </td>
+                    
+                    <td>
+                        {{username}}
+                    </td>
+                    <td>
+                        {{song.genre}}
+                    </td>
+
+                    <td>
+                        <a href="{{url_for('creator.update_song',song_id=song.song_id)}}"><button class="table-btn" value="Edit Album">Edit Song</button></a>
+                    </td>
+                    {% if current_user.role in ["admin"] %}
+                    <td>
+                        {% if song.is_flagged %}
+                        <a href="{{url_for('admin.flag_song',song_id=song.song_id)}}"><button class="table-btn"><i class="ti ti-flag-filled"></i></button></a>
+                        {% else %}
+                        <a href="{{url_for('admin.flag_song',song_id=song.song_id)}}"><button class="table-btn"><i class="ti ti-flag"></i></button></a>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+                    <td>
+                        <a href="{{url_for('creator.delete_song',song_id=song.song_id)}}"><button class="table-btn"><i class="ti ti-trash"></i></button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

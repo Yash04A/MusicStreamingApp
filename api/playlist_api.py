@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, flash,redirect, abort, current_app
+from flask import Blueprint, render_template, request, url_for, flash,redirect, abort
 from flask_login import login_required, current_user
 
 from config import app, db
@@ -33,6 +33,7 @@ def create_playlist(playlist_id=None):
 
         if playlist_id:
             playlist = Playlists.query.get(playlist_id)
+            playlist.title = title
             
         else:
             playlist = Playlists(title=title, created_on=created_on, user_id=current_user.id)
@@ -63,10 +64,11 @@ def delete_playlist(playlist_id):
     playlist = Playlists.query.get(playlist_id)
     if current_user.id == playlist.user_id or current_user.role=='admin':
         if playlist:
-            app.logger.info(f"Deleted playlist - {playlist.title, playlist.playlist_id} ")
+            app.logger.info(f"Deleted playlist - {playlist.title}{ playlist.playlist_id} ")
             db.session.delete(playlist)
             db.session.commit()
         else:
+            app.logger.info(f"Playlist not found - {playlist_id} ")
             flash('Playlist not found!')
     else:
         abort(403)

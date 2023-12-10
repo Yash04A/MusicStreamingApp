@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, request, url_for, flash,redirect, abort
-from flask_login import login_user, login_required, logout_user, current_user, confirm_login
-from datetime import datetime
+from flask import Blueprint, render_template, url_for, flash,redirect, abort
+from flask_login import login_user, login_required, logout_user, current_user
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -33,6 +32,9 @@ def register():
             return redirect(url_for('home'))
         
         except Exception as e:
+
+            app.logger.info(f"Error - {e} ")
+
             flash("Some error occured! Contact admin.")
             return redirect(url_for('auth.register'))
 
@@ -53,6 +55,7 @@ def login():
                     return redirect(url_for('home'))
                 else:
                     flash("Account is Banned!")
+                    return redirect(url_for('auth.login'))
             else:
                 flash("Wrong password!")
                 return redirect(url_for('auth.login'))
@@ -72,7 +75,7 @@ def admin_login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
-            if user.role =='admin':
+            if user.role=='admin':
                 if bcrypt.check_password_hash(user.password, form.password.data):
                     login_user(user)
                     return redirect(url_for('home'))
@@ -97,27 +100,27 @@ def update_user(user_id):
     if form.validate_on_submit():
         if bcrypt.check_password_hash(current_user.password, form.password.data):
             user = User.query.filter_by(id=current_user.id).first()
-            update = []
+            
             if current_user.first_name != form.first_name.data:
                 new_fname = form.first_name.data
                 user.first_name = new_fname
-                update.append("First name")
+                
             if current_user.last_name != form.last_name.data:
                 new_lname = form.last_name.data
                 user.last_name = new_lname
-                update.append("Last name")
+                
             if current_user.dob != form.dob.data:
                 new_dob = form.dob.data
                 user.dob = new_dob
-                update.append("Birthdate")
+                
             if current_user.username != form.username.data:
                 new_username = form.username.data
                 user.username = new_username
-                update.append("Username")
+                
             if form.img.data:
                 new_path = uploadData(form.img.data, app.config['PFP_UPLOADS'], f'{current_user.id}.jpg')
                 user.pfp = new_path
-                update.append("Profile picture")
+                
             db.session.commit()
             return redirect(url_for('home'))
             
@@ -134,7 +137,7 @@ def update_user(user_id):
 def logout():
 
     logout_user()
-    flash("You have successfully logged out!")
+    # flash("You have successfully logged out!")
     return redirect(url_for('auth.login'))
 
 

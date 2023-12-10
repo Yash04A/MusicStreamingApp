@@ -1,0 +1,34 @@
+.main-body .table{
+    display: flex;
+    justify-content: center;
+    
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    text-align: center;
+    width: 100vw;
+}
+
+.table-btn{
+    background-color: #fa586a;
+    color:white;
+    padding:5px 20px;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40%;
+    height: 32px;
+
+}
+
+td .ti{
+    font-size: 18px;
+}
+
+.a{
+    color: #717171;
+}

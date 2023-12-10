@@ -1,10 +1,9 @@
-from flask import Flask, render_template, url_for, redirect, request, abort, jsonify
+from flask import render_template, url_for, redirect, request, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy import func, or_
 import requests as rq
 
 from config import app,db
-from forms import SongForm
 from models import Songs, User, SongStats, Like, Albums, Playlists
 
 from auth import auth_bp
@@ -15,12 +14,6 @@ from api.playlist_api import playlist_bp
 from api.album_api import album_bp
 
 
-@app.context_processor
-def load_base():
-    print(current_user.is_authenticated)
-    if current_user.is_authenticated:
-        return dict(user_playlists = db.session.query(Playlists.playlist_id, Playlists.title, Playlists.img).filter( Playlists.user_id==current_user.id).all())
-    return dict()
 
 
 app.register_blueprint(auth_bp)
@@ -29,6 +22,13 @@ app.register_blueprint(playlist_bp)
 app.register_blueprint(album_bp)
 app.register_blueprint(creator_bp)
 app.register_blueprint(admin_bp)
+
+
+@app.context_processor
+def load_base():
+    if current_user.is_authenticated:
+        return dict(user_playlists = db.session.query(Playlists.playlist_id, Playlists.title, Playlists.img).filter( Playlists.user_id==current_user.id).all())
+    return dict()
 
 
 @app.route('/')
@@ -63,16 +63,16 @@ def radio():
 @login_required
 def playlists():
     playlists_list = db.session.query(Playlists, User.username).join(User).order_by(func.random()).limit(16).all()
-    new = db.session.query(Playlists, User.username).join(User).order_by(Playlists.created_on.desc()).limit(8).all()
-    return render_template('playlists/playlists.html', recommended_1=playlists_list[:8], recommended_2=playlists_list[8:], new=new)
+    new_playlist = db.session.query(Playlists, User.username).join(User).order_by(Playlists.created_on.desc()).limit(8).all()
+    return render_template('playlists/playlists.html', recommended_1=playlists_list[:8], recommended_2=playlists_list[8:], new=new_playlist)
 
 
 @app.route('/albums')
 @login_required
 def albums():
     albums_list = db.session.query(Albums, User.username).join(User).order_by(func.random()).limit(16).all()
-    new = db.session.query(Albums, User.username).join(User).order_by(Albums.release_date.desc()).limit(8).all()
-    return render_template('albums/albums.html', recommended_1=albums_list[:8], recommended_2=albums_list[8:], new=new)
+    new_album = db.session.query(Albums, User.username).join(User).order_by(Albums.release_date.desc()).limit(8).all()
+    return render_template('albums/albums.html', recommended_1=albums_list[:8], recommended_2=albums_list[8:], new=new_album)
 
 
 
@@ -80,7 +80,6 @@ def albums():
 @login_required
 def user_liked_songs():
     liked_song = db.session.query(Songs).join(Like).filter(Like.user_id == current_user.id, Songs.is_flagged.is_(False)).all()
-    print(liked_song)
     return render_template('songs/liked_songs.html', liked_song=liked_song)
 
 
@@ -88,7 +87,6 @@ def user_liked_songs():
 @login_required
 def liked_song(song_id):
     check_like = Like.query.filter_by(song_id=song_id, user_id=current_user.id).first()
-    print(check_like)
     if check_like is None:
         liked = Like(song_id=song_id, user_id=current_user.id)
         db.session.add(liked)
@@ -110,7 +108,6 @@ def search():
     albums = db.session.query(Albums, User.username).join(User).filter(Albums.title.ilike(f"%{search}%")).limit(8).all()
     
     return render_template('searched.html', songs=songs, playlists=playlists, albums=albums)
-
 
 
 
