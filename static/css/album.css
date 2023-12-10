@@ -1,0 +1,91 @@
+.info{
+    overflow:hidden;
+}
+
+div::-webkit-scrollbar {
+    width: 5px;
+  }
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.row-1 {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    min-width: -webkit-fill-available;
+    width: fit-content;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.row-2 {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    min-width: -webkit-fill-available;
+    width: fit-content;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.row-3 {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    min-width: -webkit-fill-available;
+    width: fit-content;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.album .details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* width: 650px; */
+    padding: 10px;
+    margin: 0;
+}
+
+.like .ti{
+    color: #fa586a;
+    font-size: 20px;
+}
+
+.body-heading{
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.details div{
+    color: #717171;
+}
+
+.play-button {
+    display: none; 
+}
+
+.album:hover .play-button{
+    display: block;
+    position: absolute;
+    height: 180px;
+    width: 180px;
+    padding-left: 80px ;
+    padding-top: 80px;
+
+    color: #fa586a;
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0.1); 
+    transition: opacity 0.3s ease;
+
+}
+
+.row-1::-webkit-scrollbar{
+    height: 5px;
+}

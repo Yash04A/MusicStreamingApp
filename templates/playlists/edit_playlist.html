@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Playlist</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/edit.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main-body">
+
+        <div class="body-title">
+        <h1>Create Playlist</h1>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" id="submitform">
+            {{ form.hidden_tag() }}
+        <div class="details">
+        <li>
+            <legend for="{{ form.title.id }}">Playlist name</legend>:
+            {{ form.title(placeholder="Enter a name") }}
+        </li>
+        <li>
+            <legend for="{{ form.img.id }}">Upload Playlist cover</legend>:
+            {{ form.img() }}
+        </li>
+        <li>
+            <input type="submit" value="{{btn}} Playlist">
+        </li>
+        </div>
+        <div class="body-title">
+        <li class="errors">
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <i class="flashed">{{ error }}</i>
+                {% endfor %}
+            {% endfor %}
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                        <i class="flashed">{{ messages[-1] }}</i>
+                {% endif %}
+            {% endwith %}
+        </li>
+        </div>
+        <div class="song-table">
+            <h2>Select Songs</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="td-1">#</th>
+                    <th class="td-2">Title</th>
+                    <th class="td-3">Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for song in songs %}
+                <tr>
+                    <td class="td-1">
+                            {% if song.song_id not in selected %}
+                            <input type="checkbox" name="selected_songs" id="{{song.song_id}}" value="{{ song.song_id }}">
+                            {%else%}
+                            <input type="checkbox" name="selected_songs" id="{{song.song_id}}" value="{{ song.song_id }}" selected>
+                            {% endif %}
+                        </td >
+                        <td class="td-2"> <label for="{{song.song_id}}"><img src="{{ url_for('static', filename=song.img) }}" alt="" height="40px"> <p>{{ song.title }}</p></label> </td>
+                        <td class="td-3">{{song.duration}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+
+</div>
+
+{% endblock %}
+

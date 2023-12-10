@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main-body">
+    <div class="left">
+        <h2>Top 3 Songs</h2>
+        <div class="row-1">
+            {% for song in top_3 %}
+            <div class="song">
+                <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+                    <i class="ti ti-player-play play-button">
+                    </i>
+                    <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
+                    <div class="details">
+                        <div>
+                            <h3>{{ song.title }}</h3>
+                            <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
+                        </div>
+                </a>
+
+                <div class="like">
+                    <h6>{{song.play_count}}</h6>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <h2>Top 10 Songs</h2>
+    <div class="image">
+        <img src="{{url_for('static', filename=dashboard)}}" alt="" height="480px" width="720px">
+    </div>
+</div>
+
+
+
+<div class="right">
+
+
+    <div class="details">
+        <div><h2>Total User: {{t_user}}</h2></div>
+        <div><h2>Total Songs: {{t_songs}}</h2></div>
+        <div><h2>Total Playlists: {{t_playlist}}</h2></div>
+    </div>
+    <div class="r2">
+    <h2>Admin Actions</h2>
+    </div>
+    <div class="actions">
+        <a href="{{url_for('admin.list_songs')}}"><button>Songs</button></a>
+        <a href="{{url_for('admin.list_users')}}"><button>Users</button></a>
+        <a href="{{url_for('admin.list_playlists')}}"><button>Playlists</button></a>
+        <a href="{{url_for('admin.list_albums')}}"><button>Albums</button></a>
+    </div>
+</div>
+</div>
+
+{% endblock %}

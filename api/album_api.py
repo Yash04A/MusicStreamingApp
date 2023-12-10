@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, url_for, flash,redirect, 
 from flask_login import login_required, current_user
 
 from config import app, db
-from models import Albums, Songs
+from models import Albums, Songs, User
 from utils import uploadData
 from forms import AlbumForm
 
@@ -19,25 +19,28 @@ def check_user_role():
 
 @album_bp.route('/album/<int:album_id>')
 def album_detail(album_id):
-    album = Albums.query.filter_by(album_id=album_id).all()
-    return "hello"
+    album, username = db.session.query(Albums, User.username).join(User).filter(Albums.album_id==album_id).first()
+    return render_template("albums/album_detail.html", album=album, username=username, pagetilte='album')
     
-@album_bp.route('/album/update/<int:album_id>')
-@album_bp.route('/album/create')
+@album_bp.route('/album/update/<int:album_id>', methods=["GET","POST"])
+@album_bp.route('/album/create', methods=["GET","POST"])
 def create_album(album_id=None):
     form = AlbumForm()
-    songs = db.session.query(Songs.song_id, Songs.title, Songs.duration, Songs.img).filter(Songs.creator_id == current_user.id).all()
+    songs = db.session.query(Songs.song_id, Songs.title, Songs.duration, Songs.img).filter(Songs.is_flagged.is_(False)).all()
 
     if form.validate_on_submit():
         title = form.title.data
         img_file = form.img.data
-        release_date = form.release_date.data
-        selected_songs = form.songs.data
+        released_date = form.released_date.data
+        selected_songs = request.form.getlist('selected_songs')
 
         if album_id:
             album = Albums.query.get(album_id)
+            
         else:
-            album = Albums(title=title, release_date=release_date, user_id=current_user.id)
+            album = Albums(title=title, release_date=released_date, creator_id=current_user.id)
+            db.session.add(album)
+            db.session.commit()
         
         if img_file:
             img_filename = f"{album.album_id}.jpg"
@@ -52,13 +55,11 @@ def create_album(album_id=None):
     if album_id:
         album = Albums.query.get(album_id)
         form.title.data = album.title
-        form.release_date.data = album.release_date
-        form.songs.choices = [(song.song_id, song.title) for song in album.songs]
-
-        # album_songs = db.session.query(Songs.song_id).filter_by(album_id=album_id).all()
-        # form.songs.choices = [(song.song_id, song.title) for song in album_songs]
-    
-    return render_template("edit_album.html", form=form, songs=songs)
+        form.released_date.data = album.release_date
+        selected_songs = [song.song_id for song in album.songs]
+        return render_template("albums/edit_album.html", form=form, songs=songs, selected=selected_songs, btn='Update' )
+        
+    return render_template("albums/edit_album.html", form=form, songs=songs, btn='Create')
 
 @album_bp.route('/album/delete/<int:album_id>')
 def delete_album(album_id):

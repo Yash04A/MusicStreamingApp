@@ -21,11 +21,6 @@
                 <legend for="{{ form.genre.id }}">Genre</legend>:
                 {{ form.genre(placeholder="Enter genre of your song") }}
             </li>
-
-            <li>
-                <legend for="{{ form.release_date.id }}">Release date</legend>:
-                {{ form.release_date() }}
-            </li>
             <li>
                 <legend for="{{ form.audio.id }}">Upload Audio</legend>:
                 {{ form.audio() }}
@@ -56,7 +51,7 @@
                 {% endwith %}
             </li>
             <li>
-                <input type="submit" value="Register">
+                <input type="submit" value="Upload Song">
             </li>
         </form>
     </fieldset>

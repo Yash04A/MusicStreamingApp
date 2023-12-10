@@ -4,9 +4,10 @@ import requests as rq
 
 creator_bp = Blueprint('creator', __name__)
 
-from models import Songs
+from models import Songs, Albums, SongStats, User
 from config import db, app
 from forms import SongForm
+from utils import plot_graph
 
 @creator_bp.before_request
 @login_required
@@ -63,5 +64,27 @@ def delete_song(song_id):
     return redirect(url_for('home'))
 
 @creator_bp.route("/creator_dashboard/<string:username>")
-def creator_dashboard(_):
-    song_data = db.session.query(Songs.title, Songs.likes, )
+def creator_dashboard(username):
+    top_10 = db.session.query(Songs.title, SongStats.play_count).join(SongStats, SongStats.song_id==Songs.song_id).filter(Songs.is_flagged.is_(False), Songs.creator_id==current_user.id).order_by(SongStats.play_count.desc()).limit(10).all()
+    if top_10:
+        plot_graph(top_10, f'{current_user.id}.png')
+        loc = f'dashboard/{current_user.id}.png'
+    else:
+        loc=None
+    
+    t_songs = Songs.query.filter_by(creator_id=current_user.id).count()
+    t_albums = Albums.query.filter_by(creator_id=current_user.id).count()
+
+    top_3 = db.session.query(Songs.song_id, Songs.title, Songs.img, Songs.genre, User.username, SongStats.play_count).join(User, User.id==Songs.creator_id).join(SongStats, SongStats.song_id==Songs.song_id).filter(Songs.is_flagged.is_(False), Songs.creator_id==current_user.id).order_by(SongStats.play_count.desc()).limit(3).all()
+    return render_template("dashboard/creator_dashboard.html" ,dashboard=loc, t_songs=t_songs, t_albums=t_albums, top_3=top_3)
+
+
+@creator_bp.route("/creator/albums")
+def show_albums():
+    albums = db.session.query(Albums).filter(Albums.creator_id==current_user.id).all()
+    return render_template('lists/album.html', albums=albums)
+
+@creator_bp.route("/creator/songs")
+def show_songs():
+    songs = db.session.query(Songs).filter(Songs.creator_id==current_user.id).all()
+    return render_template('lists/song.html', songs=songs)

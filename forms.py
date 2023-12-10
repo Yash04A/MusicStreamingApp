@@ -1,12 +1,13 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import StringField, PasswordField, DateField, FileField, SelectMultipleField, widgets
+from wtforms import StringField, PasswordField,DateTimeField, DateField, FileField
 from wtforms.validators import DataRequired, Email, Length, ValidationError, Optional
 from models import User
-from datetime import date
+from datetime import date, datetime
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[Email(), DataRequired()])
+    username = StringField('Display Name', validators=[Length(max=15), DataRequired()])
     fname = StringField('First Name', validators=[DataRequired(), Length(min=1, max=25)])
     lname = StringField('Last Name', validators=[DataRequired(), Length(min=1, max=25)])
     dob = DateField('Birthdate', format='%Y-%m-%d', default=None,  validators=[Optional()])
@@ -38,9 +39,9 @@ class CreatorForm(FlaskForm):
 class SongForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     genre = StringField('Genre', validators=[DataRequired()])
-    release_date = DateField('Release Date',format='%Y-%m-%d', default=date.today(), validators=[Optional()])
-    audio = FileField('Audio File', validators=[DataRequired(), FileAllowed(['mp3'], 'Only MP3 images are allowed.')])
-    lyrics = FileField('Lyrics File', validators=[DataRequired(), FileAllowed(['txt'], 'Only TXT images are allowed.')])
+    release_date = DateTimeField('Release Date', default=datetime.utcnow)
+    audio = FileField('Audio File', validators=[DataRequired(), FileAllowed(['mp3'], 'Only MP3 audio file are allowed.')])
+    lyrics = FileField('Lyrics File', validators=[DataRequired(), FileAllowed(['txt'], 'Only TXT files are allowed.')])
     img = FileField('Image File', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg'], 'Only JPG images are allowed.')])
 
 class UpdateSongForm(FlaskForm):
@@ -50,15 +51,14 @@ class UpdateSongForm(FlaskForm):
 class AlbumForm(FlaskForm):
     title = StringField('Album Title', validators=[DataRequired()])
     img = FileField('Image File', validators=[FileAllowed(['jpg', 'jpeg'], 'Only JPG images are allowed.')])
-    release_date = DateField('Release Date',format='%Y-%m-%d', default=date.today())
-    songs = SelectMultipleField('Songs', coerce=int, widget=widgets.ListWidget(prefix_label=False), option_widget=widgets.CheckboxInput())
+    released_date = DateTimeField('Release Date', default=datetime.utcnow)
 
 
 class PlaylistForm(FlaskForm):
     title = StringField('Album Title', validators=[DataRequired()])
     img = FileField('Image File', validators=[FileAllowed(['jpg', 'jpeg'], 'Only JPG images are allowed.')])
-    release_date = DateField('Release Date',format='%Y-%m-%d', default=date.today())
-    songs = SelectMultipleField('Songs', coerce=int, widget=widgets.ListWidget(prefix_label=False), option_widget=widgets.CheckboxInput())
+    created_on = DateTimeField('Release Date', default=datetime.utcnow)
+    
 
 
 

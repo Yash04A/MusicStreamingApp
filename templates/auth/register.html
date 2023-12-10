@@ -20,8 +20,6 @@
 {% block content %}
 <div class="container">
     <fieldset>
-        <!-- <h1 class="heading">Create Your TuneIn Account</h1>
-        <h2>Where Music Comes Alive</h2> -->
         <h1 class="heading">Create Your Account</h1>
         <h2>Let the Melody Mount!</h2>
         <form action="{{ url_for('auth.register') }}" method="post">
@@ -30,7 +28,10 @@
                 <legend for="{{ form.email.id }}">Email</legend>:
                 {{ form.email(placeholder="your.email@example.com") }}
             </li>
-
+            <li>
+                <legend for="{{ form.username.id }}">Username</legend>:
+                {{ form.username(placeholder="Enter a username") }}
+            </li>
             <li>
                 <legend for="{{ form.fname.id }}">First Name</legend>:
                 {{ form.fname(placeholder="Enter the First Name") }}
@@ -51,7 +52,7 @@
                 {{ form.password(placeholder="Password must be 8+ characters") }}
             </li>
 
-            <li>
+            <li class="errors">
                 {% for field, errors in form.errors.items() %}
                     {% for error in errors %}
                         <i class="flashed">{{ error }}</i>

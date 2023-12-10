@@ -1,23 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
-<title>TuneIn-Login</title>
+<title>TuneIn-Creator</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
-
-{% block nav %}
-<div class="nav1">
-    
-</div>
-
-<div class="nav2" style="justify-content: space-evenly;">
-    <a href="http://"><button type="button">Register</button></a>
-
-   <a href="http://"><button type="button">Login as Admin</button></a>
-    </a>
-</div>
-{% endblock %}
-
-
 
 {% block content %}
 <div class="container">
@@ -35,7 +20,7 @@
                 {{ form.password(placeholder="Enter your Password") }}
             </li>
 
-            <li>
+            <li class="errors">
                 {% for field, errors in form.errors.items() %}
                     {% for error in errors %}
                         <i class="flashed">{{ error }}</i>
@@ -49,7 +34,7 @@
                 {% endwith %}
             </li>
             <li>
-                <input type="submit" value="Become a Creator">
+                <input type="submit" value="Register as Creator">
             </li>
         </form>
     </fieldset>

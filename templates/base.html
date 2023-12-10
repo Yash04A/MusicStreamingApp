@@ -37,8 +37,8 @@
             <ul class="playlist">
                 <li><a href="{{url_for('user_liked_songs')}}"><i class="ti ti-heart"></i><p>Liked Songs</p></a></li>
 
-                {% for playlist in playlists %}
-                <li><a href="url_for('playlist_details', title=playlist.title, id=playlist.playlist_id)"><img src="{{ url_for('static', filename=playlist.img) }}"></img><p>{{ playlist.title }}</p></a></li>
+                {% for playlist in user_playlists %}
+                <li><a href="{{url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}"><img src="{{ url_for('static', filename=playlist.img) }}" height="40px"></img><p style="padding-left: 5px;">{{ playlist.title }}</p></a></li>
                 {% endfor %}
             </ul>
             {% endif %}
@@ -57,7 +57,7 @@
             <div class="header">
                 {% if current_user.is_authenticated%}
                 <div class="nav1">
-                    <form action="{{ url_for('search') }}" id="searched" method="get">
+                    <form action="{{ url_for('search') }}" id="searched" method="POST">
                         <input type="search" name="search" id="search" placeholder="Enter your query">
                         <button type="submit" form="searched"><i class="ti ti-search"></i></button>
                     </form>
@@ -97,8 +97,9 @@
             .then(response => response.json())
             .then(data => {
                 var likeButton = document.querySelector('.likeButton[data-song-id="'+song_id+'"]');
-                likeButton.classList.toggle('liked', data.check_like);
-
+                likeButton.classList.toggle('ti-heart-filled', data.action === 'like');
+                likeButton.classList.toggle('ti-heart', data.action==='unlike');
+                
                 if(data.action === 'like'){
                     console.log('Song liked -',song_id);
                 } else {

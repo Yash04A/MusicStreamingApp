@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Tune-In</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lists.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main-body">
+    <h1>Users</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> User </th>
+                    <th>Username</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>role</th>
+                    <th>Backlist</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                 {% if user.is_banned %}
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename=user.pfp) }}" alt="" height="40px">
+                    </td>
+                    <td>
+                       {{ user.username }}
+                    </td>
+                    <td>
+                        {{user.first_name}}
+                    </td>
+                    <td>
+                        {{user.last_name}}
+                    </td>
+                    <td>
+                        {{user.role}}
+                    </td>
+                    <td><a href="url_for('ban',user_id=user.id)"><i class="ti ti-trash-filled"></i></a></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                {% for user in users %}
+                 {% if not user.is_banned %}
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename=user.pfp) }}" alt="" height="40px">
+                    </td>
+                    <td>
+                       {{ user.username }}
+                    </td>
+                    <td>
+                        {{user.first_name}}
+                    </td>
+                    <td>
+                        {{user.last_name}}
+                    </td>
+                    <td>
+                        {{user.role}}
+                    </td>
+                    <td><a href="url_for('ban',user_id=user.id)"><i class="ti ti-trash-filled"></i></a></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+

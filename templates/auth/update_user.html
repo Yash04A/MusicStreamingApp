@@ -6,8 +6,6 @@
 {% block content %}
 <div class="container">
     <fieldset>
-        <!-- <h1 class="heading">Create Your TuneIn Account</h1>
-        <h2>Where Music Comes Alive</h2> -->
         <h1 class="heading">Edit Profile</h1>
         <h2></h2>
         <form action="{{ url_for('auth.update_user', user_id=current_user.id) }}" method="post" enctype="multipart/form-data">
@@ -47,7 +45,7 @@
             </li>
 
 
-            <li>
+            <li class="errors">
                 {% for field, errors in form.errors.items() %}
                     {% for error in errors %}
                         <i class="flashed">{{ error }}</i>
@@ -61,7 +59,7 @@
                 {% endwith %}
             </li>
             <li>
-                <input type="submit" value="Register">
+                <input type="submit" value="Update">
             </li>
         </form>
     </fieldset>

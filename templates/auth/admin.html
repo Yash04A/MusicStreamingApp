@@ -33,7 +33,7 @@
             {{ form.password(placeholder="Enter your Password") }}
         </li>
 
-        <li>
+        <li class="errors">
             {% for field, errors in form.errors.items() %}
                 {% for error in errors %}
                     <i class="flashed">{{ error }}</i>
@@ -47,7 +47,7 @@
             {% endwith %}
         </li>
         <li>
-            <input type="submit" value="Register">
+            <input type="submit" value="Log In">
         </li>
     </form>
     </fieldset>

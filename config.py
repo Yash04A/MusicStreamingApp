@@ -14,6 +14,7 @@ app.config['ALBUM_IMG_UPLOAD'] = path.join(path.dirname(path.realpath(__file__))
 app.config['SONG_IMG_UPLOAD'] = path.join(path.dirname(path.realpath(__file__)), 'static/song/')
 app.config['SONG_UPLOAD'] = path.join(path.dirname(path.realpath(__file__)), 'static/song/')
 app.config['SONG_LYRICS_UPLOAD'] = path.join(path.dirname(path.realpath(__file__)), 'static/song/')
+app.config['DASHBOARD'] = path.join(path.dirname(path.realpath(__file__)), 'static/dashboard/')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tunein.sqlite3'
 db = SQLAlchemy()

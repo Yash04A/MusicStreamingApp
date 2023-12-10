@@ -17,7 +17,9 @@ class SongAPI(Resource):
     def get(self, song_id):
         try:
             song, username = db.session.query(Songs, User.username).join(User).filter(Songs.song_id==song_id).first()
-            
+            loc = f'static/{song.lyrics}'
+            with open(loc) as file:
+                lyrics = file.read()
             if song :
                 json_play = {
                     'song_id': song.song_id,
@@ -25,10 +27,18 @@ class SongAPI(Resource):
                     'genre' : song.genre,
                     'release_date' : song.release_date.isoformat(),
                     'audio' : song.audio,
-                    'lyrics' : song.lyrics,
+                    'lyrics' : lyrics,
                     'img' : song.img,
                     'artist': username
                 }
+                songstat= SongStats.query.filter_by(song_id=song_id).first()
+                if songstat is not None:
+                    songstat.play_count+=1
+                    db.session.commit()
+                else:
+                    songstat = SongStats(song_id=song_id, play_count=1)
+                    db.session.add(songstat)
+                    db.session.commit()
                 return json_play, 200
             else:
                 return "Song not found", 404
@@ -97,6 +107,7 @@ class SongAPI(Resource):
             
             except Exception as e:
                 flash("Error occured!")
+                print(e)
                 # return 500
         else:
             return redirect(url_for('creator.upload_song'))

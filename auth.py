@@ -19,6 +19,7 @@ def register():
     if form.validate_on_submit():
         try:
             user = User(email=form.email.data, 
+                        username=form.username.data,
                         first_name=form.fname.data, 
                         last_name=form.lname.data, 
                         dob=form.dob.data,
@@ -47,8 +48,11 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('home'))
+                if not user.is_banned:
+                    login_user(user)
+                    return redirect(url_for('home'))
+                else:
+                    flash("Account is Banned!")
             else:
                 flash("Wrong password!")
                 return redirect(url_for('auth.login'))
@@ -140,13 +144,16 @@ def logout():
 def creator():
     form = CreatorForm()
     if form.validate_on_submit():
-        if bcrypt.check_password_hash(current_user.password, form.password.data):
-            user = User.query.filter_by(id=current_user.id).first()
+        user = User.query.filter_by(id=current_user.id).first()
+        if bcrypt.check_password_hash(user.password, form.password.data):
             username = form.username.data
             user.username = username
             user.role = "creator"
             db.session.commit()
+            return redirect(url_for('home'))
+        else:
+            flash("Wrong Password!")
+            return render_template('auth/creator.html', form=form)
         
-        return redirect(url_for('home'))
 
     return render_template('auth/creator.html', form=form)

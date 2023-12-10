@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block head %}
+<title>TuneIn-{{pagetilte}}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="main-body">
+    <div class="left">
+        <div class="image"><img src="{{ url_for('static', filename=album.img) }}" alt="" height="256px"></div>
+        <div class="details">
+            <div>
+            <h2>{{album.title}}</h2>
+            <h4>{{username}}</h4>
+            </div>
+        </div>
+        <div class="btns">
+            {%if album.creator_id==current_user.id %}
+            <a href="{{ url_for('album.create_album', album_id=album.album_id) }}">
+                <button class="edit-btn" type="submit">Edit album</button></a>
+            <a href="{{ url_for('album.delete_album', album_id=album.album_id) }}"><button class="delete-btn" type="submit"><i class="ti ti-trash"></i></button></a>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="right">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Songs</th>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th></th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for song in album.songs %}
+                <tr>
+                    
+                    <td>
+                        <img src="{{ url_for('static', filename=song.img) }}" alt="" height="40px">
+                    </td>
+
+                    <td>
+                        <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+                        <i class="ti ti-player-play"></i>
+                        </a>
+
+                    </td>
+                    <td>
+                        <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+                        {{song.title}}
+                        </a>
+                    </td>
+                    <td>
+                        {{song.genre}}
+                    </td>
+                    <td><div class="like">
+                        {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+                        <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                            onclick="likeButtonClick({{song.song_id}})"></i>
+                        {% else %}
+                        <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                            onclick="likeButtonClick({{song.song_id}})"></i>
+                        {% endif %}
+                    </div></td>
+                    <td class="td-5">{{song.duration}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

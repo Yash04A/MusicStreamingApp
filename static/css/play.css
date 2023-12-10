@@ -1,0 +1,54 @@
+.main-body {
+    display: flex;
+    padding: 15px;
+    justify-content: center;
+}
+
+.main-body .left{
+    flex: 50%;
+    height: max-content;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-body .left .details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 650px;
+    padding: 10px;
+    margin: 0;
+}
+
+
+.main-body .right{
+    padding: 20px;
+    flex: 50%;
+}
+
+.main-body .right h2{
+    padding-bottom: 5px;
+    border-bottom: 1px solid #717171;
+}
+
+.main-body .right .lyrics{
+    padding-top: 10px;
+    height: 75vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    margin: 0;
+}
+
+.like .ti{
+    color: #fa586a;
+    font-size: 32px;
+}
+
+
+audio {
+    filter: invert(91%);
+    width: 650px;
+    padding: 10px;  
+  }

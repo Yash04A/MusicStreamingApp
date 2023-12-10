@@ -34,8 +34,8 @@
                 <legend for="{{ form.password.id }}">Password</legend>:
                 {{ form.password(placeholder="Enter your Password") }}
             </li>
-
-            <li>
+            
+            <li class="errors">
                 {% for field, errors in form.errors.items() %}
                     {% for error in errors %}
                         <i class="flashed">{{ error }}</i>

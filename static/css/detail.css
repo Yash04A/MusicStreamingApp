@@ -1,0 +1,84 @@
+.main-body{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.main-body .left{
+    display: flex;
+    width: 50%;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-body .left .details{
+    width: 256px;
+    padding: 25px 5px;
+}
+
+.main-body .left .btns{
+    display: flex;
+    width: 256px;
+    justify-content: space-between;
+
+}
+
+.main-body .right{
+    display: flex;
+    padding: 20px;
+    width: 50%;
+}
+
+.edit-btn{
+    width: 80px;
+    height: 40px;
+    color: whitesmoke;
+    background-color: #fa586a;
+    border: 1px solid #333333;
+    border-radius: 10px;
+}
+
+.delete-btn{
+    width: 40px;
+    height: 40px;
+    background-color: #fa586a;
+    border: 1px solid #333333;
+    border-radius: 5px;
+}
+
+.delete-btn .ti{
+    color: whitesmoke;
+    font-size: 20px;
+}
+
+.like .ti{
+    color: #fa586a;
+    font-size: 20px;
+}
+
+td a{
+    color: #717171;
+}
+
+td{
+    width: 500px;
+    padding: 5px;
+    text-align: center;
+}
+th{
+    width: 500px;
+    padding: 5px;
+    text-align: center;
+}
+
+td .ti{
+    color: #fa586a;
+    font-size: 20px;
+}
+
+.heart{
+    color: #fa586a;
+    font-size: 256px;
+}

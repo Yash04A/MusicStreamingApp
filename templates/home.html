@@ -8,33 +8,97 @@
 {% block content %}
 
 <div class="container">
+    <h1 class="body-heading">Recommended music</h1>
     <div class="row-1">
-        {% for song in r_songs %}
-        <div class="song-box">
-            <img src="{{ url_for('static', filename=song.img) }}" alt="" height="156px" width="156px">
-            <h3>{{ song.title }}</h3>
-            <h5>artist name {{song.song_id in current_user.likes|map(attribute='song_id')}}</h5>
-            <button class="likeButton {% if song.song_id in current_user.likes|map(attribute='song_id') %} liked {% endif %}" data-song-id="{{ song.song_id }}" onclick="likeButtonClick({{song.song_id}})">Like/Unlike</button>
+        {% for song in recommended %}
+        <div class="song">
+            <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+                <i class="ti ti-player-play play-button">
+                </i>
+                <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
+            
+
+            <div class="details">
+                <div>
+                    <h3>{{ song.title }}</h3>
+                    <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
+                </div>
+                </a>
+
+                <div class="like">
+                    {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+                    <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                        onclick="likeButtonClick({{song.song_id}})"></i>
+                    {% else %}
+                    <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                        onclick="likeButtonClick({{song.song_id}})"></i>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
-    <div class="row-1">
+
+
+    <h1 class="body-heading">New music</h1>
+    <div class="row-2">
         {% for song in new_songs %}
-        <div class="song-box">
-            <img src="{{ url_for('static', filename=song.img) }}" alt="" height="156px" width="156px">
-            <h3>{{ song.title }}</h3>
-            <h5>artist name {{song.song_id in current_user.likes|map(attribute='song_id')}}</h5>
-            <button class="likeButton {% if song.song_id in current_user.likes|map(attribute='song_id') %} liked {% endif %}" data-song-id="{{ song.song_id }}" onclick="likeButtonClick({{song.song_id}})">Like/Unlike</button>
+        <div class="song">
+            <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+                <i class="ti ti-player-play play-button">
+                </i>
+                <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
+            
+
+            <div class="details">
+                <div>
+                    <h3>{{ song.title }}</h3>
+                    <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
+                </div>
+                </a>
+
+                <div class="like">
+                    {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+                    <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                        onclick="likeButtonClick({{song.song_id}})"></i>
+                    {% else %}
+                    <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                        onclick="likeButtonClick({{song.song_id}})"></i>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
-    <div class="row-1">
+
+
+    <h1 class="body-heading">Trending</h1>
+    <div class="row-3">
         {% for song in trending %}
-        <div class="song-box">
-            <img src="{{ url_for('static', filename=song.img) }}" alt="" height="156px" width="156px">
-            <h3>{{ song.title }}</h3>
-            <h5>artist name {{song.song_id in current_user.likes|map(attribute='song_id')}}</h5>
-            <button class="likeButton {% if song.song_id in current_user.likes|map(attribute='song_id') %} liked {% endif %}" data-song-id="{{ song.song_id }}" onclick="likeButtonClick({{song.song_id}})">Like/Unlike</button>
+        <div class="song">
+            <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+                <i class="ti ti-player-play play-button">
+                </i>
+                <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
+            
+
+            <div class="details">
+                <div>
+                    <h3>{{ song.title }}</h3>
+                    <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
+                </div>
+                </a>
+
+                <div class="like">
+                    {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+                    <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                        onclick="likeButtonClick({{song.song_id}})"></i>
+                    {% else %}
+                    <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                        onclick="likeButtonClick({{song.song_id}})"></i>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
