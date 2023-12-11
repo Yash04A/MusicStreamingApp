@@ -105,11 +105,14 @@ class SongAPI(Resource):
                 new_song.lyrics = lyrics_path
                 new_song.img = img_path
 
-                stats = SongStats(
-                    song_id=song_id,
-                    play_count=0
-                )
-                db.session.add(stats)
+                songstat= SongStats.query.filter_by(song_id=song_id).first()
+                if songstat is not None:
+                    songstat.play_count = 0
+                    
+                else:
+                    songstat = SongStats(song_id=song_id, play_count=0)
+                    db.session.add(songstat)
+                   
                 db.session.commit()
                 
                 app.logger.info(f"Song Added - {new_song.title} - { new_song.song_id}")

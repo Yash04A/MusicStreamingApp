@@ -53,6 +53,7 @@ def create_album(album_id=None):
 
         db.session.add(album)
         db.session.commit()
+        return redirect(url_for('album.album_detail', album_id=album.album_id))
 
 
     if album_id:
@@ -67,7 +68,7 @@ def create_album(album_id=None):
 @album_bp.route('/album/delete/<int:album_id>')
 def delete_album(album_id):
     album = Albums.query.get(album_id)
-    if current_user.id == Albums.user_id or current_user.role=='admin':
+    if current_user.id == album.creator_id or current_user.role=='admin':
         if album:
             app.logger.info(f"Deleted Album - {album.title, album.album_id} ")
             db.session.delete(album)

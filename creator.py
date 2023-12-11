@@ -34,11 +34,13 @@ def update_song(song_id):
             response = rq.put(f"{url_for('song.songapi',song_id=song_id, _external=True)}",
                             json=form_data,
                             headers={'Content-Type':'application/json'})
-            app.logger.info(f"Response: {response.status_code} - {response.text}")
+            
             if response.status_code == 200:
-                flash('Song Updated!')
+                app.logger.info(f"Response: {response.status_code} - {response.text}")
+                return redirect(url_for('creator.show_songs'))
             else:
                 flash('Error in updating song.')
+                app.logger.info(f"Response: {response.status_code} - {response.text}")
     else:
         abort(403)
 
@@ -48,16 +50,16 @@ def update_song(song_id):
 
 @creator_bp.route("/delete/song/<int:song_id>")
 def delete_song(song_id):
-    song = Songs.query.get(song_id)
+    song = Songs.query.filter_by(song_id=song_id).first()
 
     if current_user.id == song.creator_id or current_user.role=='admin':
-        response = rq.delete(f"{url_for('song.songapi',song_id=song_id,_external=True)}")
-        app.logger.info(f"Response: {response.status_code} - {response.text}")
+        response = rq.delete(f"{url_for('song.songapi',song_id=song.song_id,_external=True)}")
 
         if response.status_code == 200:
-            flash('Song deleted!')
+            app.logger.info(f"Response: {response.status_code} - {response.text}")
         else:
-            flash('Error deleting the song.')
+            app.logger.info(f"Response: {response.status_code} - {response.text}")   
+            
     else:
         abort(403)
 

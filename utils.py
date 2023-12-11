@@ -18,7 +18,6 @@ def uploadData(file, loc, file_name):
 
     relative_path = os.path.relpath(new_file_path, start='static').replace(os.path.sep,'/')
 
-
     return relative_path
 
 def plot_graph(data,file_name):

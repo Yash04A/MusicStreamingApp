@@ -80,8 +80,8 @@ def flag_song(song_id):
             song.is_flagged = True
         else:
             song.is_flagged = False
-        app.logger.info(f"Song Flagged - {song.is_banned} - { song.id} ")
         db.session.commit()
+        app.logger.info(f"Song Flagged - {song.is_flagged} - { song.song_id} ")
     return redirect(url_for('admin.list_songs'))
 
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, flash,redirect, abort
+from flask import Blueprint, render_template, request, url_for, redirect, abort
 from flask_login import login_required, current_user
 
 from config import app, db
@@ -49,6 +49,7 @@ def create_playlist(playlist_id=None):
 
         db.session.add(playlist)
         db.session.commit()
+        return redirect(url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id))
 
     if playlist_id:
         playlist = Playlists.query.get(playlist_id)
@@ -69,7 +70,6 @@ def delete_playlist(playlist_id):
             db.session.commit()
         else:
             app.logger.info(f"Playlist not found - {playlist_id} ")
-            flash('Playlist not found!')
     else:
         abort(403)
     return redirect(url_for('home'))
