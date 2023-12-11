@@ -40,7 +40,8 @@
                     <td>
                         {{user.role}}
                     </td>
-                    <td><a href="{{url_for('admin.ban_user',user_id=user.id)}}"><button class="table-btn"><i class="ti ti-trash-filled"></button></i></a></td>
+                    <td><a href="{{url_for('admin.ban_user',user_id=user.id)}}"><button class="table-btn">
+                                <i class="ti ti-trash-filled"></button></i></a></td>
                 </tr>
                 {% endif %}
                 {% endfor %}
@@ -62,7 +63,8 @@
                     <td>
                         {{user.role}}
                     </td>
-                    <td><a href="{{url_for('admin.ban_user',user_id=user.id)}}"><button class="table-btn"><i class="ti ti-trash"></button></i></a></td>
+                    <td><a href="{{url_for('admin.ban_user',user_id=user.id)}}"><button class="table-btn">
+                                <i class="ti ti-trash"></button></i></a></td>
                 </tr>
                 {% endif %}
                 {% endfor %}

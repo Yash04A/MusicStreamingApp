@@ -8,11 +8,12 @@
     <fieldset>
         <h1 class="heading">Edit Profile</h1>
         <h2></h2>
-        <form action="{{ url_for('auth.update_user', user_id=current_user.id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url_for('auth.update_user', user_id=current_user.id) }}" method="post"
+            enctype="multipart/form-data">
             {{form.hidden_tag()}}
             <li>
                 <legend for="email">Email</legend>:
-                <input type="email" name="email" id="email" value='{{ current_user.email }}'readonly>
+                <input type="email" name="email" id="email" value='{{ current_user.email }}' readonly>
             </li>
 
             <li>
@@ -47,15 +48,15 @@
 
             <li class="errors">
                 {% for field, errors in form.errors.items() %}
-                    {% for error in errors %}
-                        <i class="flashed">{{ error }}</i>
-                    {% endfor %}
+                {% for error in errors %}
+                <i class="flashed">{{ error }}</i>
+                {% endfor %}
                 {% endfor %}
 
                 {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                            <i class="flashed">{{ messages[-1] }}</i>
-                    {% endif %}
+                {% if messages %}
+                <i class="flashed">{{ messages[-1] }}</i>
+                {% endif %}
                 {% endwith %}
             </li>
             <li>

@@ -28,22 +28,24 @@
                     </td>
                     <td>
                         <a class="a" href="{{ url_for('album.album_detail', album_id=album.album_id)}}">
-                        {{ album.title }}
+                            {{ album.title }}
                         </a>
                     </td>
-                    
+
                     <td>
                         {{username}}
                     </td>
                     <td>
-                        <a href="{{url_for('album.create_album',album_id=album.album_id)}}"><button class="table-btn" value="Edit Album">Edit Album</button></a>
+                        <a href="{{url_for('album.create_album',album_id=album.album_id)}}"><button class="table-btn"
+                                value="Edit Album">Edit Album</button></a>
                     </td>
                     <td>
-                        <a href="{{url_for('album.delete_album',album_id=album.album_id)}}"><button class="table-btn"><i class="ti ti-trash"></i></button></a>
+                        <a href="{{url_for('album.delete_album',album_id=album.album_id)}}"><button class="table-btn"><i
+                                    class="ti ti-trash"></i></button></a>
                     </td>
                 </tr>
                 {% endfor %}
-                
+
             </tbody>
         </table>
     </div>

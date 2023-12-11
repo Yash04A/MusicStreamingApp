@@ -16,92 +16,92 @@
                 <i class="ti ti-player-play play-button">
                 </i>
                 <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
-            
+
+
+                <div class="details">
+                    <div>
+                        <h3>{{ song.title }}</h3>
+                        <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
+                    </div>
+            </a>
+
+            <div class="like">
+                {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+                <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                    onclick="likeButtonClick({{song.song_id}})"></i>
+                {% else %}
+                <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                    onclick="likeButtonClick({{song.song_id}})"></i>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+<h1 class="body-heading">New music</h1>
+<div class="row-2">
+    {% for song in new_songs %}
+    <div class="song">
+        <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+            <i class="ti ti-player-play play-button">
+            </i>
+            <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
+
 
             <div class="details">
                 <div>
                     <h3>{{ song.title }}</h3>
                     <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
                 </div>
-                </a>
+        </a>
 
-                <div class="like">
-                    {% if song.song_id in current_user.likes|map(attribute='song_id') %}
-                    <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
-                        onclick="likeButtonClick({{song.song_id}})"></i>
-                    {% else %}
-                    <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
-                        onclick="likeButtonClick({{song.song_id}})"></i>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="like">
+            {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+            <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                onclick="likeButtonClick({{song.song_id}})"></i>
+            {% else %}
+            <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                onclick="likeButtonClick({{song.song_id}})"></i>
+            {% endif %}
         </div>
-        {% endfor %}
     </div>
+</div>
+{% endfor %}
+</div>
 
 
-    <h1 class="body-heading">New music</h1>
-    <div class="row-2">
-        {% for song in new_songs %}
-        <div class="song">
-            <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
-                <i class="ti ti-player-play play-button">
-                </i>
-                <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
-            
+<h1 class="body-heading">Trending</h1>
+<div class="row-3">
+    {% for song in trending %}
+    <div class="song">
+        <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
+            <i class="ti ti-player-play play-button">
+            </i>
+            <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
+
 
             <div class="details">
                 <div>
                     <h3>{{ song.title }}</h3>
                     <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
                 </div>
-                </a>
+        </a>
 
-                <div class="like">
-                    {% if song.song_id in current_user.likes|map(attribute='song_id') %}
-                    <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
-                        onclick="likeButtonClick({{song.song_id}})"></i>
-                    {% else %}
-                    <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
-                        onclick="likeButtonClick({{song.song_id}})"></i>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="like">
+            {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+            <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                onclick="likeButtonClick({{song.song_id}})"></i>
+            {% else %}
+            <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                onclick="likeButtonClick({{song.song_id}})"></i>
+            {% endif %}
         </div>
-        {% endfor %}
     </div>
-
-
-    <h1 class="body-heading">Trending</h1>
-    <div class="row-3">
-        {% for song in trending %}
-        <div class="song">
-            <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
-                <i class="ti ti-player-play play-button">
-                </i>
-                <img src="{{ url_for('static', filename=song.img)}}" alt="Song cover" height="180px">
-            
-
-            <div class="details">
-                <div>
-                    <h3>{{ song.title }}</h3>
-                    <h6>{{ song.username }} <i class="ti ti-point-filled"></i> {{song.genre}} </h6>
-                </div>
-                </a>
-
-                <div class="like">
-                    {% if song.song_id in current_user.likes|map(attribute='song_id') %}
-                    <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
-                        onclick="likeButtonClick({{song.song_id}})"></i>
-                    {% else %}
-                    <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
-                        onclick="likeButtonClick({{song.song_id}})"></i>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+</div>
+{% endfor %}
+</div>
 </div>
 
 {% endblock %}

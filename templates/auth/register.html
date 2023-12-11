@@ -6,13 +6,13 @@
 
 {% block nav %}
 <div class="nav1">
-    
+
 </div>
 
 <div class="nav2" style="justify-content: space-evenly;">
     <a href="{{ url_for('auth.login') }}"><button type="button">Login</button></a>
 
-   <a href="{{url_for('auth.admin_login')}}"><button type="button">Login as Admin</button></a>
+    <a href="{{url_for('auth.admin_login')}}"><button type="button">Login as Admin</button></a>
     </a>
 </div>
 {% endblock %}
@@ -54,15 +54,15 @@
 
             <li class="errors">
                 {% for field, errors in form.errors.items() %}
-                    {% for error in errors %}
-                        <i class="flashed">{{ error }}</i>
-                    {% endfor %}
+                {% for error in errors %}
+                <i class="flashed">{{ error }}</i>
+                {% endfor %}
                 {% endfor %}
 
                 {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                            <i class="flashed">{{ messages[-1] }}</i>
-                    {% endif %}
+                {% if messages %}
+                <i class="flashed">{{ messages[-1] }}</i>
+                {% endif %}
                 {% endwith %}
             </li>
             <li>

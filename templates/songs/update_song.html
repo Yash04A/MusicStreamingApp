@@ -8,7 +8,8 @@
     <fieldset>
         <h1 class="heading">Update Song</h1>
         <h2></h2>
-        <form action="{{ url_for('creator.update_song',song_id=song.song_id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url_for('creator.update_song',song_id=song.song_id) }}" method="post"
+            enctype="multipart/form-data">
             {{form.hidden_tag()}}
             <li>
                 <legend for="{{ form.title.id }}">Title</legend>:
@@ -20,19 +21,19 @@
                 {{ form.genre(placeholder="Enter genre of your song") }}
             </li>
 
-                {% for field, errors in form.errors.items() %}
-                    {% for error in errors %}
-                        <i class="flashed">{{ error }}</i>
-                    {% endfor %}
-                {% endfor %}
+            {% for field, errors in form.errors.items() %}
+            {% for error in errors %}
+            <i class="flashed">{{ error }}</i>
+            {% endfor %}
+            {% endfor %}
 
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <i class="flashed">{{ message }}</i>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <i class="flashed">{{ message }}</i>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
             </li>
             <li>
                 <input type="submit" value="Update Song">

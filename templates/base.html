@@ -88,21 +88,21 @@
                         </button>
                     </a>
                     {% else %}
-                        {% if current_user.role=="creator" %}
-                            <a href="{{url_for('creator.creator_dashboard', username=current_user.username)}}">
-                                <button type="button">
-                                    Dashboard
-                                </button>
-                            </a>
-                        {% else %}
-                            {% if current_user.role=="admin" %}
-                            <a href="{{url_for('admin.admin_dashboard')}}">
-                                <button type="button">
-                                    Dashboard
-                                </button>
-                            </a>
-                            {%endif%}
-                        {%endif%}
+                    {% if current_user.role=="creator" %}
+                    <a href="{{url_for('creator.creator_dashboard', username=current_user.username)}}">
+                        <button type="button">
+                            Dashboard
+                        </button>
+                    </a>
+                    {% else %}
+                    {% if current_user.role=="admin" %}
+                    <a href="{{url_for('admin.admin_dashboard')}}">
+                        <button type="button">
+                            Dashboard
+                        </button>
+                    </a>
+                    {%endif%}
+                    {%endif%}
                     {%endif%}
 
                 </div>

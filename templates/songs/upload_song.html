@@ -37,17 +37,17 @@
 
             <li>
                 {% for field, errors in form.errors.items() %}
-                    {% for error in errors %}
-                        <i class="flashed">{{ error }}</i>
-                    {% endfor %}
+                {% for error in errors %}
+                <i class="flashed">{{ error }}</i>
+                {% endfor %}
                 {% endfor %}
 
                 {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <i class="flashed">{{ message }}</i>
-                        {% endfor %}
-                    {% endif %}
+                {% if messages %}
+                {% for message in messages %}
+                <i class="flashed">{{ message }}</i>
+                {% endfor %}
+                {% endif %}
                 {% endwith %}
             </li>
             <li>

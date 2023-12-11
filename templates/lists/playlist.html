@@ -28,21 +28,23 @@
                     </td>
                     <td>
                         <a class="a" href="{{ url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}">
-                        {{ playlist.title }}
+                            {{ playlist.title }}
                         </a>
                     </td>
                     <td>
                         {{username}}
                     </td>
                     <td>
-                        <a href="{{url_for('playlist.create_playlist',playlist_id=playlist.playlist_id)}}"><button class="table-btn" value="Edit playlist">Edit playlist</button></a>
+                        <a href="{{url_for('playlist.create_playlist',playlist_id=playlist.playlist_id)}}"><button
+                                class="table-btn" value="Edit playlist">Edit playlist</button></a>
                     </td>
                     <td>
-                        <a href="{{url_for('playlist.delete_playlist',playlist_id=playlist.playlist_id)}}"><button class="table-btn"><i class="ti ti-trash"></i></button></a>
+                        <a href="{{url_for('playlist.delete_playlist',playlist_id=playlist.playlist_id)}}"><button
+                                class="table-btn"><i class="ti ti-trash"></i></button></a>
                     </td>
                 </tr>
                 {% endfor %}
-                
+
             </tbody>
         </table>
     </div>

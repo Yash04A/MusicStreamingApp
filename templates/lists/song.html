@@ -32,10 +32,10 @@
                     </td>
                     <td>
                         <a class="a" href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
-                        {{ song.title }}
+                            {{ song.title }}
                         </a>
                     </td>
-                    
+
                     <td>
                         {{username}}
                     </td>
@@ -44,23 +44,27 @@
                     </td>
 
                     <td>
-                        <a href="{{url_for('creator.update_song',song_id=song.song_id)}}"><button class="table-btn" value="Edit Album">Edit Song</button></a>
+                        <a href="{{url_for('creator.update_song',song_id=song.song_id)}}"><button class="table-btn"
+                                value="Edit Album">Edit Song</button></a>
                     </td>
                     {% if current_user.role in ["admin"] %}
                     <td>
                         {% if song.is_flagged %}
-                        <a href="{{url_for('admin.flag_song',song_id=song.song_id)}}"><button class="table-btn"><i class="ti ti-flag-filled"></i></button></a>
+                        <a href="{{url_for('admin.flag_song',song_id=song.song_id)}}"><button class="table-btn"><i
+                                    class="ti ti-flag-filled"></i></button></a>
                         {% else %}
-                        <a href="{{url_for('admin.flag_song',song_id=song.song_id)}}"><button class="table-btn"><i class="ti ti-flag"></i></button></a>
+                        <a href="{{url_for('admin.flag_song',song_id=song.song_id)}}"><button class="table-btn"><i
+                                    class="ti ti-flag"></i></button></a>
                         {% endif %}
                     </td>
                     {% endif %}
                     <td>
-                        <a href="{{url_for('creator.delete_song',song_id=song.song_id)}}"><button class="table-btn"><i class="ti ti-trash"></i></button></a>
+                        <a href="{{url_for('creator.delete_song',song_id=song.song_id)}}"><button class="table-btn"><i
+                                    class="ti ti-trash"></i></button></a>
                     </td>
                 </tr>
                 {% endfor %}
-                
+
             </tbody>
         </table>
     </div>

@@ -33,7 +33,11 @@
     </div>
     <h2>Top 10 Songs</h2>
     <div class="image">
+        {% if dashboard %}
         <img src="{{url_for('static', filename=dashboard)}}" alt="" height="480px" width="720px">
+        {% else %}
+        <img src="" alt="" height="480px" width="720px" style="visibility: hidden;">
+        {% endif%}
     </div>
 </div>
 
@@ -43,12 +47,18 @@
 
 
     <div class="details">
-        <div><h2>Total User: {{t_user}}</h2></div>
-        <div><h2>Total Songs: {{t_songs}}</h2></div>
-        <div><h2>Total Playlists: {{t_playlist}}</h2></div>
+        <div>
+            <h2>Total User: {{t_user}}</h2>
+        </div>
+        <div>
+            <h2>Total Songs: {{t_songs}}</h2>
+        </div>
+        <div>
+            <h2>Total Playlists: {{t_playlist}}</h2>
+        </div>
     </div>
     <div class="r2">
-    <h2>Admin Actions</h2>
+        <h2>Admin Actions</h2>
     </div>
     <div class="actions">
         <a href="{{url_for('admin.list_songs')}}"><button>Songs</button></a>

@@ -12,15 +12,16 @@
         <div class="image"><img src="{{ url_for('static', filename=playlist.img) }}" alt="" height="256px"></div>
         <div class="details">
             <div>
-            <h2>{{playlist.title}}</h2>
-            <h4>{{username}}</h4>
+                <h2>{{playlist.title}}</h2>
+                <h4>{{username}}</h4>
             </div>
         </div>
         <div class="btns">
             {%if playlist.user_id==current_user.id %}
             <a href="{{ url_for('playlist.create_playlist', playlist_id=playlist.playlist_id) }}">
                 <button class="edit-btn" type="submit">Edit playlist</button></a>
-            <a href="{{ url_for('playlist.delete_playlist', playlist_id=playlist.playlist_id) }}"><button class="delete-btn" type="submit"><i class="ti ti-trash"></i></button></a>
+            <a href="{{ url_for('playlist.delete_playlist', playlist_id=playlist.playlist_id) }}"><button
+                    class="delete-btn" type="submit"><i class="ti ti-trash"></i></button></a>
             {% endif %}
         </div>
     </div>
@@ -41,34 +42,36 @@
             <tbody>
                 {% for song in playlist.songs.all() %}
                 <tr>
-                    
+
                     <td>
                         <img src="{{ url_for('static', filename=song.img) }}" alt="" height="40px">
                     </td>
 
                     <td>
                         <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
-                        <i class="ti ti-player-play"></i>
+                            <i class="ti ti-player-play"></i>
                         </a>
 
                     </td>
                     <td>
                         <a href="{{ url_for('played', title=song.title, song_id=song.song_id)}}">
-                        {{song.title}}
+                            {{song.title}}
                         </a>
                     </td>
                     <td>
                         {{song.genre}}
                     </td>
-                    <td><div class="like">
-                        {% if song.song_id in current_user.likes|map(attribute='song_id') %}
-                        <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
-                            onclick="likeButtonClick({{song.song_id}})"></i>
-                        {% else %}
-                        <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
-                            onclick="likeButtonClick({{song.song_id}})"></i>
-                        {% endif %}
-                    </div></td>
+                    <td>
+                        <div class="like">
+                            {% if song.song_id in current_user.likes|map(attribute='song_id') %}
+                            <i class="ti ti-heart-filled likeButton" data-song-id="{{ song.song_id }}"
+                                onclick="likeButtonClick({{song.song_id}})"></i>
+                            {% else %}
+                            <i class="ti ti-heart likeButton" data-song-id="{{ song.song_id }}"
+                                onclick="likeButtonClick({{song.song_id}})"></i>
+                            {% endif %}
+                        </div>
+                    </td>
                     <td class="td-5">{{song.duration}}</td>
                 </tr>
                 {% endfor %}

@@ -9,19 +9,21 @@
     <div class="left">
         <img src="{{ url_for('static', filename=json_play.get('img'))}}" alt="Song cover" height="650px">
         <div class="details">
-        <div>
-            <h1>{{ json_play.get('title') }}</h1>
-            <h4>{{ json_play.get('artist') }}</h4>
+            <div>
+                <h1>{{ json_play.get('title') }}</h1>
+                <h4>{{ json_play.get('artist') }}</h4>
+            </div>
+
+            <div class="like">
+                {% if json_play.get('song_id') in current_user.likes|map(attribute='song_id') %}
+                <i class="ti ti-heart-filled likeButton" data-song-id="{{ json_play.get('song_id') }}"
+                    onclick="likeButtonClick({{json_play.get('song_id')}})"></i>
+                {% else %}
+                <i class="ti ti-heart likeButton" data-song-id="{{ json_play.get('song_id') }}"
+                    onclick="likeButtonClick({{json_play.get('song_id')}})"></i>
+                {% endif %}
+            </div>
         </div>
-        
-        <div class="like">
-            {% if json_play.get('song_id') in current_user.likes|map(attribute='song_id') %}
-            <i class="ti ti-heart-filled likeButton"  data-song-id="{{ json_play.get('song_id') }}" onclick="likeButtonClick({{json_play.get('song_id')}})"></i> 
-            {% else %} 
-            <i class="ti ti-heart likeButton"  data-song-id="{{ json_play.get('song_id') }}" onclick="likeButtonClick({{json_play.get('song_id')}})"></i> 
-            {% endif %}
-       </div>
-    </div>
 
         <audio src="{{ url_for('static', filename=json_play.get('audio'))}}" controls></audio>
     </div>
@@ -34,4 +36,3 @@
     </div>
 </div>
 {% endblock %}
-

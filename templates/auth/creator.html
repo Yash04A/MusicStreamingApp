@@ -22,15 +22,15 @@
 
             <li class="errors">
                 {% for field, errors in form.errors.items() %}
-                    {% for error in errors %}
-                        <i class="flashed">{{ error }}</i>
-                    {% endfor %}
+                {% for error in errors %}
+                <i class="flashed">{{ error }}</i>
+                {% endfor %}
                 {% endfor %}
 
                 {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                            <i class="flashed">{{ messages[-1] }}</i>
-                    {% endif %}
+                {% if messages %}
+                <i class="flashed">{{ messages[-1] }}</i>
+                {% endif %}
                 {% endwith %}
             </li>
             <li>

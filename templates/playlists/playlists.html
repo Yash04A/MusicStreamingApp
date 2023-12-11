@@ -16,61 +16,61 @@
                 <i class="ti ti-player-play play-button">
                 </i>
                 <img src="{{ url_for('static', filename=playlist.img)}}" alt="playlist cover" height="180px">
-            
+
+
+                <div class="details">
+                    <div>
+                        <h3>{{ playlist.title }}</h3>
+                        <h6>{{ username }}</h6>
+                    </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row-2">
+    {% for playlist, username in recommended_2 %}
+    <div class="playlist">
+        <a href="{{ url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}">
+            <i class="ti ti-player-play play-button">
+            </i>
+            <img src="{{ url_for('static', filename=playlist.img)}}" alt="playlist cover" height="180px">
+
 
             <div class="details">
                 <div>
                     <h3>{{ playlist.title }}</h3>
                     <h6>{{ username }}</h6>
                 </div>
-                </a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+        </a>
 
-    <div class="row-2">
-        {% for playlist, username in recommended_2 %}
-        <div class="playlist">
-            <a href="{{ url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}">
-                <i class="ti ti-player-play play-button">
-                </i>
-                <img src="{{ url_for('static', filename=playlist.img)}}" alt="playlist cover" height="180px">
-            
+    </div>
+</div>
+{% endfor %}
+</div>
+
+
+<h1 class="body-heading">New playlist</h1>
+<div class="row-3">
+    {% for playlist,username in new %}
+    <div class="playlist">
+        <a href="{{ url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}">
+            <i class="ti ti-player-play play-button">
+            </i>
+            <img src="{{ url_for('static', filename=playlist.img)}}" alt="playlist cover" height="180px">
+
 
             <div class="details">
                 <div>
                     <h3>{{ playlist.title }}</h3>
                     <h6>{{ username }}</h6>
                 </div>
-                </a>
-
-            </div>
-        </div>
-        {% endfor %}
+        </a>
     </div>
-
-
-    <h1 class="body-heading">New playlist</h1>
-    <div class="row-3">
-        {% for playlist,username in new %}
-        <div class="playlist">
-            <a href="{{ url_for('playlist.playlist_detail', playlist_id=playlist.playlist_id)}}">
-                <i class="ti ti-player-play play-button">
-                </i>
-                <img src="{{ url_for('static', filename=playlist.img)}}" alt="playlist cover" height="180px">
-            
-
-            <div class="details">
-                <div>
-                    <h3>{{ playlist.title }}</h3>
-                    <h6>{{ username }}</h6>
-                </div>
-                </a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+</div>
+{% endfor %}
+</div>
 </div>
 
 {% endblock %}
